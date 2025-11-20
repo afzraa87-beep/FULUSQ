@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FulusQ - Gunakan Aku untuk Mengatasi Masalah Keuanganmuu!</title>
+    <title>FulusQ - Smart Finance</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,578 +13,506 @@
 
     <style>
         /* =========================================
-           JANGAN UBAH BAGIAN INI (CSS DESAIN)
+           BAGIAN 1: ANIMASI & BACKGROUND "HIDUP"
+           ========================================= */
+        
+        /* Animasi Latar Belakang Berubah Warna Halus */
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Animasi Uang Melayang dari Bawah ke Atas */
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) rotate(360deg) scale(1.2); opacity: 0; }
+        }
+
+        /* Container untuk elemen melayang */
+        .floating-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; /* Agar tidak mengganggu klik */
+            z-index: -1; /* Di belakang konten */
+            overflow: hidden;
+        }
+
+        .money-icon {
+            position: absolute;
+            bottom: -10%;
+            font-size: 2.5rem;
+            opacity: 0;
+            animation: floatUp linear infinite;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+
+        /* Pengaturan Posisi & Kecepatan Acak */
+        .m1 { left: 10%; animation-duration: 15s; animation-delay: 0s; font-size: 3rem; }
+        .m2 { left: 25%; animation-duration: 12s; animation-delay: 5s; font-size: 2rem; }
+        .m3 { left: 40%; animation-duration: 18s; animation-delay: 2s; font-size: 4rem; }
+        .m4 { left: 60%; animation-duration: 14s; animation-delay: 8s; font-size: 2.5rem; }
+        .m5 { left: 80%; animation-duration: 16s; animation-delay: 4s; font-size: 3.5rem; }
+        .m6 { left: 90%; animation-duration: 20s; animation-delay: 1s; font-size: 1.5rem; }
+
+        /* =========================================
+           BAGIAN 2: DESAIN UTAMA (CSS)
            ========================================= */
         :root {
-            --primary-dark: #0f172a;
             --primary: #2563eb;       
-            --primary-light: #eff6ff;
             --accent: #06b6d4;        
-            --bg-body: #f1f5f9;       
-            --white: #ffffff;
+            --bg-gradient: linear-gradient(-45deg, #eff6ff, #e0f2fe, #f0f9ff, #eef2ff);
             --text-main: #1e293b;
             --text-muted: #64748b;
-            --danger: #ef4444;
-            --success: #10b981;
-            
-            --shadow: 0 4px 15px rgba(0,0,0,0.05);
-            --radius: 16px;
-            --container-width: 600px; /* Lebar ideal tampilan HP di PC */
+            --radius: 20px;
+            --shadow-soft: 0 10px 30px rgba(0,0,0,0.05);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-body);
+            background: var(--bg-gradient);
+            background-size: 400% 400%;
+            animation: gradientMove 15s ease infinite; /* Animasi Background Jalan */
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             justify-content: center;
+            padding-bottom: 80px;
         }
 
-        /* Wrapper Utama (HP Layout) */
-        .app-wrapper {
+        .app-container {
             width: 100%;
-            max-width: var(--container-width);
-            background: var(--bg-body);
+            max-width: 600px; /* Tampilan Mobile di Tengah */
+            background: rgba(255, 255, 255, 0.6); /* Transparan (Glassmorphism) */
+            backdrop-filter: blur(10px);
             min-height: 100vh;
+            box-shadow: 0 0 40px rgba(0,0,0,0.05);
             position: relative;
-            box-shadow: 0 0 30px rgba(0,0,0,0.05);
-            padding-bottom: 80px;
         }
 
         /* NAVBAR */
         .navbar {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 50;
             padding: 15px 20px;
-            border-bottom: 1px solid #e2e8f0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.5);
+            display: flex; justify-content: space-between; align-items: center;
         }
 
-        .logo { font-size: 22px; font-weight: 800; color: var(--primary-dark); }
+        .logo { font-size: 22px; font-weight: 800; color: #0f172a; }
         .logo span { color: var(--primary); }
 
-        .nav-tabs {
-            display: flex;
-            gap: 5px;
-            background: #f1f5f9;
-            padding: 4px;
-            border-radius: 50px;
+        .menu-tabs {
+            display: flex; gap: 5px; background: rgba(241, 245, 249, 0.8);
+            padding: 5px; border-radius: 50px;
         }
 
-        .nav-btn {
-            border: none;
-            background: transparent;
-            padding: 8px 14px;
-            border-radius: 40px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: 0.3s;
+        .tab-btn {
+            border: none; background: transparent; padding: 8px 16px;
+            border-radius: 40px; font-size: 0.85rem; font-weight: 600;
+            color: var(--text-muted); cursor: pointer; transition: 0.3s;
         }
 
-        .nav-btn.active {
-            background: var(--white);
-            color: var(--primary);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        .tab-btn.active {
+            background: white; color: var(--primary);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        /* SECTION ANIMATION */
-        .page-section {
-            display: none; 
-            padding: 20px;
-            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        /* PAGES */
+        .page { 
+            display: none; padding: 20px; 
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .page-section.active { display: block; }
-
+        .page.active { display: block; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* HERO CARD (SALDO) */
-        .hero-card {
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+        /* KARTU SALDO (HERO) */
+        .saldo-card {
+            background: linear-gradient(135deg, #1e293b, #2563eb);
             color: white;
-            padding: 25px;
+            padding: 30px;
             border-radius: var(--radius);
-            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
-            margin-bottom: 20px;
+            box-shadow: 0 15px 30px rgba(37, 99, 235, 0.25);
             text-align: center;
+            margin-bottom: 25px;
             position: relative;
             overflow: hidden;
         }
-        .hero-card::before {
-            content: ''; position: absolute; top: -50%; left: -20%; width: 200px; height: 200px;
-            background: rgba(255,255,255,0.1); border-radius: 50%;
+        /* Efek Kilau */
+        .saldo-card::after {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg); animation: shine 3s infinite;
         }
-        
-        .hero-card h2 { font-size: 2.5rem; font-weight: 800; margin: 10px 0; letter-spacing: -1px; }
-        .hero-card p { opacity: 0.9; font-size: 0.9rem; }
-        
-        .btn-action {
-            background: rgba(255,255,255,0.2); color: white;
-            border: 1px solid rgba(255,255,255,0.3);
-            padding: 8px 16px; border-radius: 10px; cursor: pointer;
-            font-weight: 600; margin-top: 10px; transition: 0.2s;
-        }
-        .btn-action:hover { background: white; color: var(--primary); }
+        @keyframes shine { 0% { transform: translateX(-100%) rotate(45deg); } 100% { transform: translateX(100%) rotate(45deg); } }
 
-        /* STATS ROW */
-        .stats-row { display: flex; gap: 15px; margin-bottom: 25px; }
-        .stat-box {
-            flex: 1; background: white; padding: 15px;
-            border-radius: var(--radius); box-shadow: var(--shadow);
-            display: flex; align-items: center; gap: 10px;
-        }
-        .icon-circle {
-            width: 40px; height: 40px; border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem; font-weight: bold;
-        }
-        .income .icon-circle { background: #ecfdf5; color: var(--success); }
-        .expense .icon-circle { background: #fef2f2; color: var(--danger); }
+        .saldo-card h2 { font-size: 2.5rem; margin: 10px 0; font-weight: 800; }
         
-        /* FORMS & LISTS */
-        .section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 15px; color: var(--primary-dark); display: flex; justify-content: space-between; align-items: center; }
+        .btn-edit {
+            background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
+            color: white; padding: 8px 16px; border-radius: 10px; cursor: pointer;
+            font-weight: 600; transition: 0.2s; position: relative; z-index: 2;
+        }
+        .btn-edit:hover { background: white; color: var(--primary); }
 
-        .card-white {
-            background: white; padding: 20px;
-            border-radius: var(--radius); box-shadow: var(--shadow);
-            margin-bottom: 20px;
+        /* KARTU PUTIH */
+        .card {
+            background: rgba(255,255,255,0.8); padding: 20px; border-radius: var(--radius);
+            box-shadow: var(--shadow-soft); margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.6);
         }
 
-        .input-group { margin-bottom: 15px; }
+        .card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 15px; color: #0f172a; }
+
+        /* INPUT & FORM */
         input, select {
-            width: 100%; padding: 14px; border: 2px solid #f1f5f9;
-            border-radius: 12px; font-family: inherit; outline: none;
-            background: #f8fafc; transition: 0.2s; color: var(--primary-dark); font-weight: 500;
+            width: 100%; padding: 14px; margin-bottom: 12px;
+            border: 2px solid #f1f5f9; border-radius: 12px;
+            background: #f8fafc; outline: none; transition: 0.3s; font-family: inherit;
         }
         input:focus, select:focus { border-color: var(--primary); background: white; }
 
-        .btn-primary {
-            width: 100%; background: var(--primary); color: white;
-            border: none; padding: 14px; border-radius: 12px;
-            font-weight: 700; cursor: pointer; box-shadow: 0 4px 15px rgba(37,99,235,0.2);
+        .btn-main {
+            width: 100%; padding: 14px; border: none; border-radius: 12px;
+            background: var(--primary); color: white; font-weight: 700;
+            cursor: pointer; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
             transition: 0.2s;
         }
-        .btn-primary:active { transform: scale(0.98); }
+        .btn-main:active { transform: scale(0.98); }
 
         /* LIST ITEMS */
-        .list-container { list-style: none; }
         .list-item {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 0; border-bottom: 1px dashed #e2e8f0;
+            padding: 15px 0; border-bottom: 1px dashed #cbd5e1;
         }
         .list-item:last-child { border-bottom: none; }
         
-        .item-left strong { display: block; color: var(--primary-dark); font-size: 0.95rem; }
-        .item-left small { color: var(--text-muted); font-size: 0.75rem; background: #f1f5f9; padding: 3px 8px; border-radius: 6px; }
+        .amount.in { color: #10b981; font-weight: 700; }
+        .amount.out { color: #ef4444; font-weight: 700; }
         
-        .amount { font-weight: 700; }
-        .amount.pemasukan { color: var(--success); }
-        .amount.pengeluaran { color: var(--danger); }
-
-        .delete-btn { background: #fef2f2; border: none; color: var(--danger); font-size: 1rem; cursor: pointer; margin-left: 10px; width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
-
-        /* NABUNG STYLES */
-        .nabung-item {
-            background: white; border-radius: 16px; padding: 20px;
-            margin-bottom: 15px; box-shadow: var(--shadow); border: 1px solid #f1f5f9;
-            position: relative; overflow: hidden;
+        .del-btn {
+            background: #fee2e2; color: #ef4444; border: none; width: 30px; height: 30px;
+            border-radius: 8px; cursor: pointer; margin-left: 10px; display: flex; align-items: center; justify-content: center;
         }
-        .progress-bg { width: 100%; height: 10px; background: #e2e8f0; border-radius: 10px; margin: 15px 0; overflow: hidden; }
-        .progress-bar { height: 100%; background: var(--accent); width: 0%; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-        
-        .nabung-actions { display: flex; gap: 10px; margin-top: 10px; }
-        .btn-mini { padding: 8px 14px; border-radius: 8px; border: none; cursor: pointer; font-size: 0.8rem; font-weight: 600; flex: 1; }
-        .btn-fill { background: var(--primary); color: white; }
-        .btn-detail { background: var(--primary-light); color: var(--primary); }
 
-        .badge-lunas { background: var(--success); color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem; margin-left: 5px; display: inline-block;}
+        /* NABUNG BAR */
+        .nabung-card {
+            background: rgba(255,255,255,0.9); padding: 20px; border-radius: 16px;
+            margin-bottom: 15px; box-shadow: var(--shadow-soft); position: relative;
+        }
+        .progress-track { width: 100%; height: 10px; background: #e2e8f0; border-radius: 10px; margin: 15px 0; overflow: hidden; }
+        .progress-fill { height: 100%; width: 0%; background: var(--accent); transition: width 0.5s; }
+        
+        .action-row { display: flex; gap: 10px; }
+        .btn-sm { flex: 1; padding: 8px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.8rem; }
+        .btn-blue { background: var(--primary); color: white; }
+        .btn-light { background: #e0f2fe; color: var(--primary); }
 
         /* MODAL */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.6); z-index: 999; align-items: center; justify-content: center;
-            backdrop-filter: blur(3px);
+            background: rgba(0,0,0,0.6); z-index: 200; backdrop-filter: blur(5px);
+            align-items: center; justify-content: center;
         }
-        .modal-content {
-            background: white; padding: 30px; border-radius: 24px; width: 85%; max-width: 350px;
-            animation: zoomIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        .modal-box {
+            background: white; padding: 25px; border-radius: 24px; width: 85%; max-width: 350px;
+            animation: popUp 0.3s;
         }
-        .close-modal { float: right; cursor: pointer; font-size: 1.5rem; color: #94a3b8; }
+        @keyframes popUp { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-        @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .close-icon { float: right; cursor: pointer; font-size: 1.5rem; color: #94a3b8; }
         
-        .history-list { display: none; background: #f8fafc; padding: 15px; margin-top: 15px; border-radius: 12px; font-size: 0.85rem; border: 1px solid #e2e8f0; }
-        .history-list.show { display: block; animation: fadeIn 0.3s; }
-        .history-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed #cbd5e1; color: var(--text-muted); }
-        
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        /* History Style */
+        .hist-box { display: none; background: #f8fafc; padding: 10px; margin-top: 10px; border-radius: 10px; font-size: 0.8rem; border: 1px solid #e2e8f0; }
+        .hist-box.open { display: block; animation: fadeIn 0.3s; }
+        .hist-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #ccc; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
     </style>
 </head>
 <body>
 
-<div class="app-wrapper">
-    
-    <nav class="navbar">
-        <div class="logo">Fulus<span>Q</span>.</div>
-        <div class="nav-tabs">
-            <button class="nav-btn active" onclick="switchTab('dashboard')">Home</button>
-            <button class="nav-btn" onclick="switchTab('budget')">Budget</button>
-            <button class="nav-btn" onclick="switchTab('nabung')">Nabung</button>
-        </div>
-    </nav>
+    <div class="floating-bg">
+        <div class="money-icon m1">💸</div>
+        <div class="money-icon m2">🪙</div>
+        <div class="money-icon m3">💰</div>
+        <div class="money-icon m4">💸</div>
+        <div class="money-icon m5">💎</div>
+        <div class="money-icon m6">🪙</div>
+    </div>
 
-    <div id="page-dashboard" class="page-section active">
-        <div class="hero-card">
-            <p>Total Saldo Dompet</p>
-            <h2 id="displaySaldo">Rp 0</h2>
-            <button class="btn-action" onclick="openModal('modalSaldo')">✏️ Update Saldo</button>
-        </div>
+    <div class="app-container">
+        <nav class="navbar">
+            <div class="logo">Fulus<span>Q</span>.</div>
+            <div class="menu-tabs">
+                <button class="tab-btn active" onclick="nav('home')">Home</button>
+                <button class="tab-btn" onclick="nav('budget')">Budget</button>
+                <button class="tab-btn" onclick="nav('nabung')">Nabung</button>
+            </div>
+        </nav>
 
-        <div class="stats-row">
-            <div class="stat-box income">
-                <div class="icon-circle">↓</div>
-                <div>
-                    <small>Masuk</small>
-                    <h4 id="displayMasuk">Rp 0</h4>
+        <div id="page-home" class="page active">
+            <div class="saldo-card">
+                <p>Total Saldo Dompet</p>
+                <h2 id="txtSaldo">Rp 0</h2>
+                <button class="btn-edit" onclick="modal('modalSaldo', true)">✏️ Update Saldo</button>
+            </div>
+
+            <div style="display:flex; gap:15px; margin-bottom:25px;">
+                <div class="card" style="flex:1; margin:0; display:flex; align-items:center; gap:10px;">
+                    <div style="background:#ecfdf5; padding:10px; border-radius:10px; font-size:1.2rem;">↓</div>
+                    <div><small>Masuk</small><h4 id="txtMasuk" style="color:#10b981">Rp 0</h4></div>
+                </div>
+                <div class="card" style="flex:1; margin:0; display:flex; align-items:center; gap:10px;">
+                    <div style="background:#fef2f2; padding:10px; border-radius:10px; font-size:1.2rem;">↑</div>
+                    <div><small>Keluar</small><h4 id="txtKeluar" style="color:#ef4444">Rp 0</h4></div>
                 </div>
             </div>
-            <div class="stat-box expense">
-                <div class="icon-circle">↑</div>
-                <div>
-                    <small>Keluar</small>
-                    <h4 id="displayKeluar">Rp 0</h4>
+
+            <div class="card">
+                <h3 class="card-title">Catat Transaksi</h3>
+                <form id="formTrx">
+                    <input type="text" id="trxNama" placeholder="Keperluan (mis: Makan)" required>
+                    <div style="display:flex; gap:10px;">
+                        <input type="number" id="trxJumlah" placeholder="Rp" required>
+                        <select id="trxJenis" style="width:120px;">
+                            <option value="pengeluaran">Keluar</option>
+                            <option value="pemasukan">Masuk</option>
+                        </select>
+                    </div>
+                    <button class="btn-main">Simpan</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                    <h3 class="card-title" style="margin:0;">Riwayat</h3>
+                    <small onclick="resetData('trx')" style="color:red; cursor:pointer;">Reset</small>
                 </div>
+                <ul id="listTrx" class="list-container"></ul>
             </div>
         </div>
 
-        <div class="card-white">
-            <h3 class="section-title">Catat Transaksi Baru</h3>
-            <form id="formTransaksi">
-                <div class="input-group">
-                    <input type="text" id="namaTransaksi" placeholder="Keperluan (mis: Makan Siang)" required>
-                </div>
-                <div class="input-group" style="display:flex; gap:10px;">
-                    <input type="number" id="jumlahTransaksi" placeholder="Nominal (Rp)" required>
-                    <select id="jenisTransaksi" style="width:120px;">
-                        <option value="pengeluaran">Keluar</option>
-                        <option value="pemasukan">Masuk</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn-primary">Simpan</button>
+        <div id="page-budget" class="page">
+            <div class="card">
+                <h3 class="card-title">Atur Budget Bulanan</h3>
+                <form id="formBudget">
+                    <input type="text" id="budNama" placeholder="Pos (mis: Bensin)" required>
+                    <input type="number" id="budJumlah" placeholder="Limit (Rp)" required>
+                    <button class="btn-main">Buat Budget</button>
+                </form>
+            </div>
+            <div class="card">
+                <ul id="listBudget" class="list-container"></ul>
+            </div>
+        </div>
+
+        <div id="page-nabung" class="page">
+            <div class="card">
+                <h3 class="card-title">Target Impian 🏆</h3>
+                <form id="formNabung">
+                    <input type="text" id="nabNama" placeholder="Tujuan (mis: Laptop)" required>
+                    <input type="number" id="nabTarget" placeholder="Target (Rp)" required>
+                    <button class="btn-main">Mulai Nabung</button>
+                </form>
+            </div>
+            <div id="listNabungContainer"></div>
+        </div>
+
+    </div>
+
+    <div id="modalSaldo" class="modal">
+        <div class="modal-box">
+            <span class="close-icon" onclick="modal('modalSaldo', false)">&times;</span>
+            <h3>Update Saldo</h3>
+            <form id="formSaldo" style="margin-top:15px;">
+                <input type="text" id="saldoSumber" placeholder="Sumber (mis: Gaji)" required>
+                <input type="number" id="saldoJumlah" placeholder="Nominal (Rp)" required>
+                <button class="btn-main">Simpan</button>
             </form>
         </div>
-
-        <div class="card-white">
-            <h3 class="section-title">
-                Riwayat Terakhir
-                <small onclick="resetData('transaksi')" style="color:#ef4444; cursor:pointer; font-size:0.8rem; background:#fef2f2; padding:4px 8px; border-radius:6px;">Reset</small>
-            </h3>
-            <ul id="listTransaksi" class="list-container"></ul>
-        </div>
     </div>
 
-    <div id="page-budget" class="page-section">
-        <div class="card-white">
-            <h3 class="section-title">Atur Budget Bulanan</h3>
-            <form id="formBudget">
-                <div class="input-group">
-                    <input type="text" id="namaBudget" placeholder="Nama Pos (mis: Transport)" required>
-                </div>
-                <div class="input-group">
-                    <input type="number" id="jumlahBudget" placeholder="Batas Maksimal (Rp)" required>
-                </div>
-                <button type="submit" class="btn-primary">Buat Budget</button>
+    <div id="modalTopup" class="modal">
+        <div class="modal-box">
+            <span class="close-icon" onclick="modal('modalTopup', false)">&times;</span>
+            <h3>Isi Celengan 💰</h3>
+            <p id="topupLabel" style="color:#64748b; margin-bottom:15px;">...</p>
+            <form id="formTopup">
+                <input type="hidden" id="topupIndex">
+                <input type="number" id="topupVal" placeholder="Jumlah Masuk (Rp)" required>
+                <button class="btn-main">Masukkan</button>
             </form>
         </div>
-
-        <div class="card-white">
-            <h3 class="section-title">Daftar Budget</h3>
-            <ul id="listBudget" class="list-container"></ul>
-        </div>
     </div>
 
-    <div id="page-nabung" class="page-section">
-        <div class="card-white">
-            <h3 class="section-title">Target Impian 🏆</h3>
-            <form id="formNabung">
-                <div class="input-group">
-                    <input type="text" id="namaTarget" placeholder="Tujuan (mis: Beli HP)" required>
-                </div>
-                <div class="input-group">
-                    <input type="number" id="jumlahTarget" placeholder="Target Nominal (Rp)" required>
-                </div>
-                <button type="submit" class="btn-primary">Mulai Nabung</button>
-            </form>
-        </div>
-
-        <div id="listNabungContainer">
-            </div>
-    </div>
-
-</div> <div id="modalSaldo" class="modal">
-    <div class="modal-content">
-        <span class="close-modal" onclick="closeModal('modalSaldo')">&times;</span>
-        <h3>Update Saldo</h3>
-        <form id="formSaldo" style="margin-top:20px;">
-            <div class="input-group">
-                <input type="text" id="sumberSaldo" placeholder="Sumber (mis: Gaji)" required>
-            </div>
-            <div class="input-group">
-                <input type="number" id="nilaiSaldo" placeholder="Nominal (Rp)" required>
-            </div>
-            <button type="submit" class="btn-primary">Simpan</button>
-        </form>
-    </div>
-</div>
-
-<div id="modalTopup" class="modal">
-    <div class="modal-content">
-        <span class="close-modal" onclick="closeModal('modalTopup')">&times;</span>
-        <h3>Isi Celengan 💰</h3>
-        <p id="topupLabel" style="margin-bottom:15px; color:#64748b;">...</p>
-        <form id="formTopup">
-            <input type="hidden" id="indexTopup">
-            <div class="input-group">
-                <input type="number" id="nilaiTopup" placeholder="Jumlah Masuk (Rp)" required>
-            </div>
-            <button type="submit" class="btn-primary">Masukkan</button>
-        </form>
-    </div>
-</div>
-
-<script>
-    // --- DATA STATE ---
-    let transaksi = JSON.parse(localStorage.getItem("transaksi")) || [];
-    let budgets = JSON.parse(localStorage.getItem("budgets")) || [];
-    let nabung = JSON.parse(localStorage.getItem("nabung")) || [];
-
-    // Helper Rupiah
-    const rp = (num) => "Rp " + Number(num).toLocaleString("id-ID");
-
-    // --- NAVIGATION ---
-    function switchTab(pageId) {
-        // Sembunyikan semua halaman
-        document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
-        document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+    <script>
+        // --- BAGIAN 3: LOGIKA PROGRAM (JAVASCRIPT) ---
         
-        // Tampilkan halaman yang dipilih
-        document.getElementById('page-' + pageId).classList.add('active');
-        
-        // Set tombol aktif
-        const btns = document.querySelectorAll('.nav-btn');
-        if(pageId === 'dashboard') btns[0].classList.add('active');
-        if(pageId === 'budget') btns[1].classList.add('active');
-        if(pageId === 'nabung') btns[2].classList.add('active');
-    }
+        let data = {
+            trx: JSON.parse(localStorage.getItem('trx')) || [],
+            budget: JSON.parse(localStorage.getItem('budget')) || [],
+            nabung: JSON.parse(localStorage.getItem('nabung')) || []
+        };
 
-    // --- CORE FUNCTIONS ---
-    function saveData() {
-        localStorage.setItem("transaksi", JSON.stringify(transaksi));
-        localStorage.setItem("budgets", JSON.stringify(budgets));
-        localStorage.setItem("nabung", JSON.stringify(nabung));
-        renderAll();
-    }
+        const rp = (n) => "Rp " + Number(n).toLocaleString("id-ID");
+        const el = (id) => document.getElementById(id);
 
-    function renderAll() {
-        // 1. Hitung Saldo Global
-        let masuk = transaksi.filter(t => t.jenis === 'pemasukan').reduce((a,b) => a + b.jumlah, 0);
-        let keluar = transaksi.filter(t => t.jenis === 'pengeluaran').reduce((a,b) => a + b.jumlah, 0);
-        let saldo = masuk - keluar;
-
-        document.getElementById('displaySaldo').innerText = rp(saldo);
-        document.getElementById('displayMasuk').innerText = rp(masuk);
-        document.getElementById('displayKeluar').innerText = rp(keluar);
-
-        // 2. Render Transaksi List
-        const listTrx = document.getElementById('listTransaksi');
-        listTrx.innerHTML = '';
-        if(transaksi.length === 0) {
-            listTrx.innerHTML = '<li style="text-align:center; padding:20px; color:#94a3b8;">Belum ada transaksi</li>';
+        function save() {
+            localStorage.setItem('trx', JSON.stringify(data.trx));
+            localStorage.setItem('budget', JSON.stringify(data.budget));
+            localStorage.setItem('nabung', JSON.stringify(data.nabung));
+            render();
         }
-        transaksi.slice().reverse().forEach((t, i) => {
-            let realIndex = transaksi.length - 1 - i;
-            let colorClass = t.jenis === 'pemasukan' ? 'pemasukan' : 'pengeluaran';
-            let sign = t.jenis === 'pemasukan' ? '+' : '-';
+
+        function nav(p) {
+            document.querySelectorAll('.page').forEach(e => e.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(e => e.classList.remove('active'));
+            el('page-' + p).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function modal(id, show) {
+            el(id).style.display = show ? 'flex' : 'none';
+        }
+
+        function render() {
+            // 1. Dashboard
+            let inTotal = data.trx.filter(t => t.type === 'pemasukan').reduce((a,b)=>a+b.val,0);
+            let outTotal = data.trx.filter(t => t.type === 'pengeluaran').reduce((a,b)=>a+b.val,0);
             
-            listTrx.innerHTML += `
-                <li class="list-item">
-                    <div class="item-left">
-                        <strong>${t.nama}</strong>
-                        <small>${t.jenis.toUpperCase()}</small>
-                    </div>
-                    <div style="display:flex; align-items:center;">
-                        <span class="amount ${colorClass}">${sign} ${rp(t.jumlah)}</span>
-                        <button class="delete-btn" onclick="hapus('transaksi', ${realIndex})">&times;</button>
-                    </div>
-                </li>
-            `;
-        });
+            el('txtSaldo').innerText = rp(inTotal - outTotal);
+            el('txtMasuk').innerText = rp(inTotal);
+            el('txtKeluar').innerText = rp(outTotal);
 
-        // 3. Render Budget
-        const listBud = document.getElementById('listBudget');
-        listBud.innerHTML = '';
-        budgets.forEach((b, i) => {
-            listBud.innerHTML += `
-                <li class="list-item">
-                    <div class="item-left">
-                        <strong>${b.nama}</strong>
-                        <small>Limit: ${rp(b.jumlah)}</small>
-                    </div>
-                    <button class="delete-btn" onclick="hapus('budget', ${i})">&times;</button>
-                </li>
-            `;
-        });
+            let listH = '';
+            if(data.trx.length === 0) listH = '<li style="text-align:center; color:#aaa; padding:10px;">Kosong</li>';
+            data.trx.slice().reverse().forEach((t, i) => {
+                let realIdx = data.trx.length - 1 - i;
+                let cls = t.type === 'pemasukan' ? 'in' : 'out';
+                let sgn = t.type === 'pemasukan' ? '+' : '-';
+                listH += `
+                    <li class="list-item">
+                        <div><strong>${t.name}</strong><small>${t.type}</small></div>
+                        <div style="display:flex; align-items:center;">
+                            <span class="amount ${cls}">${sgn} ${rp(t.val)}</span>
+                            <button class="del-btn" onclick="del('trx', ${realIdx})">×</button>
+                        </div>
+                    </li>`;
+            });
+            el('listTrx').innerHTML = listH;
 
-        // 4. Render Nabung (Complex)
-        const listNab = document.getElementById('listNabungContainer');
-        listNab.innerHTML = '';
-        nabung.forEach((n, i) => {
-            let percent = Math.min((n.terkumpul / n.target) * 100, 100);
-            let isLunas = n.terkumpul >= n.target;
-            let historyHtml = n.history.map(h => `
-                <div class="history-row"><span>${h.date}</span><span>+${rp(h.jumlah)}</span></div>
-            `).join('');
-            if(n.history.length === 0) historyHtml = '<div style="text-align:center; padding:5px;">Belum ada tabungan masuk</div>';
+            // 2. Budget
+            let listB = '';
+            data.budget.forEach((b, i) => {
+                listB += `
+                    <li class="list-item">
+                        <div><strong>${b.name}</strong></div>
+                        <div style="display:flex; align-items:center;">
+                            <span>Limit: ${rp(b.val)}</span>
+                            <button class="del-btn" onclick="del('budget', ${i})">×</button>
+                        </div>
+                    </li>`;
+            });
+            el('listBudget').innerHTML = listB;
 
-            listNab.innerHTML += `
-                <div class="nabung-item">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <strong>${n.nama} ${isLunas ? '<span class="badge-lunas">LUNAS! 🎉</span>' : ''}</strong>
-                        <span style="font-size:0.9rem; color:var(--primary); font-weight:bold;">
-                            ${rp(n.terkumpul)} / ${rp(n.target)}
-                        </span>
-                    </div>
-                    <div class="progress-bg">
-                        <div class="progress-bar" style="width:${percent}%; background:${isLunas ? '#10b981' : '#06b6d4'}"></div>
-                    </div>
-                    <div class="nabung-actions">
-                        <button class="btn-mini btn-fill" onclick="bukaTopup(${i})">+ Isi</button>
-                        <button class="btn-mini btn-detail" onclick="toggleHist('hist-${i}')">Rincian</button>
-                        <button class="btn-mini" onclick="hapus('nabung', ${i})" style="background:#fef2f2; color:#ef4444;">Hapus</button>
-                    </div>
-                    <div id="hist-${i}" class="history-list">
-                        <strong>Riwayat Masuk:</strong>
-                        ${historyHtml}
-                    </div>
-                </div>
-            `;
-        });
-    }
-
-    // --- EVENT HANDLERS ---
-
-    // 1. Add Transaksi
-    document.getElementById('formTransaksi').addEventListener('submit', (e) => {
-        e.preventDefault();
-        let nama = document.getElementById('namaTransaksi').value;
-        let jumlah = parseInt(document.getElementById('jumlahTransaksi').value);
-        let jenis = document.getElementById('jenisTransaksi').value;
-        
-        if(nama && jumlah) {
-            transaksi.push({ nama, jumlah, jenis });
-            e.target.reset(); saveData();
+            // 3. Nabung
+            let listN = '';
+            data.nabung.forEach((n, i) => {
+                let pct = Math.min((n.curr / n.target) * 100, 100);
+                let isDone = n.curr >= n.target;
+                let hist = n.hist.map(h => `<div class="hist-row"><span>${h.date}</span><span>+${rp(h.val)}</span></div>`).join('');
+                
+                listN += `
+                    <div class="nabung-card">
+                        <div style="display:flex; justify-content:space-between;">
+                            <strong>${n.name} ${isDone ? '🎉' : ''}</strong>
+                            <span style="color:#2563eb; font-weight:bold;">${rp(n.curr)} / ${rp(n.target)}</span>
+                        </div>
+                        <div class="progress-track"><div class="progress-fill" style="width:${pct}%; background:${isDone?'#10b981':'#06b6d4'}"></div></div>
+                        <div class="action-row">
+                            <button class="btn-sm btn-blue" onclick="openTopup(${i})">+ Isi</button>
+                            <button class="btn-sm btn-light" onclick="el('h-${i}').classList.toggle('open')">Rincian</button>
+                            <button class="btn-sm" style="background:#fee2e2; color:red; flex:0.3;" onclick="del('nabung', ${i})">×</button>
+                        </div>
+                        <div id="h-${i}" class="hist-box">${hist || 'Belum ada data'}</div>
+                    </div>`;
+            });
+            el('listNabungContainer').innerHTML = listN;
         }
-    });
 
-    // 2. Add Budget
-    document.getElementById('formBudget').addEventListener('submit', (e) => {
-        e.preventDefault();
-        let nama = document.getElementById('namaBudget').value;
-        let jumlah = parseInt(document.getElementById('jumlahBudget').value);
-        if(nama && jumlah) {
-            budgets.push({ nama, jumlah });
-            e.target.reset(); saveData();
+        // HANDLERS
+        el('formTrx').onsubmit = (e) => {
+            e.preventDefault();
+            data.trx.push({ name: el('trxNama').value, val: +el('trxJumlah').value, type: el('trxJenis').value });
+            e.target.reset(); save();
+        };
+
+        el('formBudget').onsubmit = (e) => {
+            e.preventDefault();
+            data.budget.push({ name: el('budNama').value, val: +el('budJumlah').value });
+            e.target.reset(); save();
+        };
+
+        el('formNabung').onsubmit = (e) => {
+            e.preventDefault();
+            data.nabung.push({ name: el('nabNama').value, target: +el('nabTarget').value, curr: 0, hist: [] });
+            e.target.reset(); save();
+        };
+
+        el('formSaldo').onsubmit = (e) => {
+            e.preventDefault();
+            data.trx.push({ name: el('saldoSumber').value, val: +el('saldoJumlah').value, type: 'pemasukan' });
+            e.target.reset(); modal('modalSaldo', false); save();
+        };
+
+        function openTopup(i) {
+            el('topupIndex').value = i;
+            el('topupLabel').innerText = "Untuk: " + data.nabung[i].name;
+            modal('modalTopup', true);
         }
-    });
 
-    // 3. Add Nabung Target
-    document.getElementById('formNabung').addEventListener('submit', (e) => {
-        e.preventDefault();
-        let nama = document.getElementById('namaTarget').value;
-        let target = parseInt(document.getElementById('jumlahTarget').value);
-        if(nama && target) {
-            nabung.push({ nama, target, terkumpul: 0, history: [] });
-            e.target.reset(); saveData();
-        }
-    });
-
-    // 4. Modal Saldo (Update Saldo Awal)
-    document.getElementById('formSaldo').addEventListener('submit', (e) => {
-        e.preventDefault();
-        let nama = document.getElementById('sumberSaldo').value;
-        let jumlah = parseInt(document.getElementById('nilaiSaldo').value);
-        if(nama && jumlah) {
-            transaksi.push({ nama, jumlah, jenis: 'pemasukan' });
-            e.target.reset(); closeModal('modalSaldo'); saveData();
-        }
-    });
-
-    // 5. Topup Nabung
-    function bukaTopup(index) {
-        document.getElementById('indexTopup').value = index;
-        document.getElementById('topupLabel').innerText = "Untuk: " + nabung[index].nama;
-        openModal('modalTopup');
-    }
-
-    document.getElementById('formTopup').addEventListener('submit', (e) => {
-        e.preventDefault();
-        let index = document.getElementById('indexTopup').value;
-        let jumlah = parseInt(document.getElementById('nilaiTopup').value);
-        if(jumlah) {
-            let today = new Date().toLocaleDateString('id-ID', {day:'numeric', month:'short'});
-            nabung[index].terkumpul += jumlah;
-            nabung[index].history.push({ date: today, jumlah: jumlah });
-            e.target.reset(); closeModal('modalTopup'); saveData();
+        el('formTopup').onsubmit = (e) => {
+            e.preventDefault();
+            let i = el('topupIndex').value;
+            let val = +el('topupVal').value;
+            let date = new Date().toLocaleDateString('id-ID', {day:'numeric', month:'short'});
             
-            // Cek Lunas
-            if(nabung[index].terkumpul >= nabung[index].target) {
-                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            data.nabung[i].curr += val;
+            data.nabung[i].hist.push({ date, val });
+            
+            if(data.nabung[i].curr >= data.nabung[i].target) {
+                confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+            }
+            
+            e.target.reset(); modal('modalTopup', false); save();
+        };
+
+        function del(type, i) {
+            if(confirm('Hapus data ini?')) {
+                data[type].splice(i, 1);
+                save();
             }
         }
-    });
 
-    // --- UTILS ---
-    function hapus(type, index) {
-        if(confirm('Hapus data ini?')) {
-            if(type === 'transaksi') transaksi.splice(index, 1);
-            if(type === 'budget') budgets.splice(index, 1);
-            if(type === 'nabung') nabung.splice(index, 1);
-            saveData();
+        function resetData(type) {
+            if(confirm('Reset semua?')) {
+                data[type] = [];
+                save();
+            }
         }
-    }
 
-    function resetData(type) {
-        if(confirm('Reset semua data transaksi?')) {
-            transaksi = []; saveData();
-        }
-    }
+        // Start
+        render();
+        setTimeout(() => {
+            if(data.nabung.some(n => n.curr >= n.target)) confetti();
+        }, 1000);
 
-    function toggleHist(id) {
-        document.getElementById(id).classList.toggle('show');
-    }
-
-    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-    window.onclick = (e) => { if(e.target.classList.contains('modal')) e.target.style.display='none'; }
-
-    // INIT
-    renderAll();
-    // Cek confetti saat load
-    setTimeout(() => {
-        if(nabung.some(n => n.terkumpul >= n.target)) confetti({ particleCount: 100, spread: 100, origin: { y: 0.1 } });
-    }, 1000);
-
-</script>
-
+    </script>
 </body>
 </html>
