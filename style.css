@@ -1,70 +1,350 @@
-/* Gunakan CSS yang sama persis dengan versi v3.0 sebelumnya, 
-   Lalu tambahkan kode di bawah ini di bagian paling bawah file style.css */
+/* =========================================
+   1. VARIABEL & RESET (CORE DESIGN SYSTEM)
+   ========================================= */
+   :root {
+    /* Color Palette: Modern Ocean Blue */
+    --primary-dark: #0f172a;    /* Navy Gelap */
+    --primary: #2563eb;         /* Royal Blue */
+    --primary-hover: #1d4ed8;
+    --accent: #06b6d4;          /* Cyan / Teal untuk Nabung */
+    --accent-bg: #ecfeff;
+    --bg-body: #f8fafc;         /* Putih Abu-abu sejuk */
+    --white: #ffffff;
+    
+    /* Typography & Text */
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --font-stack: 'Plus Jakarta Sans', sans-serif;
 
-/* --- TAMBAHAN KHUSUS v4.0 --- */
+    /* Functional Colors */
+    --danger: #ef4444;
+    --danger-bg: #fef2f2;
+    --success: #10b981;
+    --warning: #f59e0b;
 
-/* Tombol Aksi Nabung */
-.action-btn-group {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
+    /* UI Elements */
+    --radius: 16px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
 }
 
-.btn-small {
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 0.8rem;
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: var(--font-stack);
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+
+/* =========================================
+   2. NAVBAR (GLASSMORPHISM)
+   ========================================= */
+.navbar {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 16px 0;
+}
+
+.nav-container { display: flex; justify-content: space-between; align-items: center; }
+
+.logo {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--primary-dark);
+    letter-spacing: -0.5px;
+}
+.logo .highlight { color: var(--primary); }
+
+.nav-menu {
+    display: flex;
+    gap: 6px;
+    background: rgba(241, 245, 249, 0.8);
+    padding: 5px;
+    border-radius: 50px;
+}
+
+.nav-link {
     border: none;
-    cursor: pointer;
+    background: transparent;
+    padding: 8px 20px;
+    border-radius: 40px;
     font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    display: flex; align-items: center; gap: 8px;
+    font-family: inherit;
+}
+
+.nav-link:hover { color: var(--primary); background: rgba(255,255,255,0.5); }
+
+.nav-link.active {
+    background: var(--white);
+    color: var(--primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.mode-toggle {
+    background: transparent; border: none; font-size: 1.2rem; cursor: pointer;
+    padding: 8px; border-radius: 50%; transition: 0.3s;
+}
+.mode-toggle:hover { background: #e2e8f0; }
+
+/* =========================================
+   3. PAGE LAYOUT & ANIMATIONS
+   ========================================= */
+.page-section {
+    display: none;
+    padding: 40px 0 80px;
+    animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.page-section.active { display: block; }
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.header-section { text-align: center; margin-bottom: 40px; }
+.header-section h2 { color: var(--primary-dark); font-size: 2rem; font-weight: 700; letter-spacing: -0.5px; }
+.header-section p { color: var(--text-muted); font-size: 1.05rem; }
+
+/* =========================================
+   4. DASHBOARD HERO (SALDO)
+   ========================================= */
+.balance-card-wrapper {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.balance-card {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    color: white;
+    padding: 32px;
+    border-radius: 24px;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+    display: flex; flex-direction: column; justify-content: center;
+}
+
+/* Abstract Shape Overlay */
+.balance-card::after {
+    content: ''; position: absolute; top: -50%; right: -20%;
+    width: 300px; height: 300px; background: radial-gradient(circle, rgba(37,99,235,0.3) 0%, rgba(0,0,0,0) 70%);
+    border-radius: 50%; pointer-events: none;
+}
+
+.balance-card .label { opacity: 0.8; font-size: 0.95rem; margin-bottom: 8px; font-weight: 500; }
+.balance-card h2 { font-size: 2.8rem; font-weight: 700; margin-bottom: 24px; line-height: 1.1; }
+
+.btn-white-outline {
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    color: white; padding: 10px 20px; border-radius: 12px; cursor: pointer;
+    font-weight: 600; font-size: 0.9rem; transition: 0.2s; backdrop-filter: blur(4px);
+}
+.btn-white-outline:hover { background: white; color: var(--primary-dark); }
+
+/* Small Stats Cards */
+.stats-grid { display: flex; flex-direction: column; gap: 16px; }
+
+.stat-card {
+    background: var(--white); padding: 20px; border-radius: 20px;
+    display: flex; align-items: center; gap: 16px;
+    box-shadow: var(--shadow-sm); border: 1px solid #e2e8f0;
+    flex: 1; transition: transform 0.2s;
+}
+.stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+.icon-box {
+    width: 48px; height: 48px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; font-weight: bold;
+}
+
+.stat-card.income .icon-box { background: #ecfdf5; color: var(--success); }
+.stat-card.expense .icon-box { background: #fef2f2; color: var(--danger); }
+
+.stat-card p { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; margin-bottom: 2px; }
+.stat-card h4 { font-size: 1.25rem; color: var(--primary-dark); font-weight: 700; }
+
+/* =========================================
+   5. MAIN CONTENT GRID (FORMS & LISTS)
+   ========================================= */
+.content-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 24px; align-items: start; }
+
+.card {
+    background: var(--white); border-radius: 24px; padding: 28px;
+    box-shadow: var(--shadow-sm); border: 1px solid #e2e8f0;
+}
+
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.card h3 { font-size: 1.25rem; color: var(--primary-dark); font-weight: 700; }
+
+/* Modern Form Styling */
+.modern-form { display: flex; flex-direction: column; gap: 16px; }
+.form-row { display: flex; gap: 16px; }
+.input-group { width: 100%; }
+
+input, select {
+    width: 100%; padding: 14px 16px;
+    border: 1px solid #cbd5e1; border-radius: 12px;
+    background: #f8fafc; font-family: inherit; font-size: 0.95rem;
+    transition: 0.2s; outline: none; color: var(--primary-dark);
+}
+
+input:focus, select:focus {
+    border-color: var(--primary); background: var(--white);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.btn-primary {
+    background: var(--primary); color: white; border: none;
+    padding: 14px; border-radius: 12px; font-weight: 600; font-size: 1rem;
+    cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+}
+.btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
+
+.btn-text-danger {
+    background: none; border: none; color: var(--danger);
+    font-weight: 600; cursor: pointer; font-size: 0.85rem;
+}
+.btn-text-danger:hover { text-decoration: underline; }
+
+/* =========================================
+   6. LIST ITEMS (TRANSAKSI, BUDGET, NABUNG)
+   ========================================= */
+.custom-list { list-style: none; }
+
+.custom-list li {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px; margin-bottom: 12px;
+    background: #fff; border: 1px solid #f1f5f9; border-radius: 16px;
     transition: 0.2s;
 }
+.custom-list li:hover { border-color: #cbd5e1; box-shadow: var(--shadow-sm); }
 
-.btn-topup {
-    background-color: var(--primary);
-    color: white;
-}
-.btn-topup:hover { background-color: var(--primary-dark); }
-
-.btn-history {
-    background-color: #e0e7ff;
-    color: var(--primary);
+.item-info strong { display: block; color: var(--primary-dark); font-size: 1rem; margin-bottom: 4px; }
+.item-info small {
+    color: var(--text-muted); font-size: 0.75rem; font-weight: 600;
+    background: #f1f5f9; padding: 4px 8px; border-radius: 6px; letter-spacing: 0.5px;
 }
 
-/* Area Rincian History Nabung */
+.amount { font-weight: 700; font-size: 1rem; }
+.amount.pemasukan { color: var(--success); }
+.amount.pengeluaran { color: var(--danger); }
+
+.delete-icon {
+    background: transparent; border: none; color: #cbd5e1;
+    font-size: 1.5rem; cursor: pointer; line-height: 1; margin-left: 12px;
+    transition: 0.2s;
+}
+.delete-icon:hover { color: var(--danger); transform: scale(1.1); }
+
+/* =========================================
+   7. NABUNG SPECIFIC STYLES (V4.0)
+   ========================================= */
+.progress-wrapper {
+    width: 100%; background: #e2e8f0; height: 10px;
+    border-radius: 20px; margin-top: 12px; overflow: hidden;
+}
+.progress-fill {
+    height: 100%; background: var(--accent);
+    border-radius: 20px; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.action-btn-group { display: flex; gap: 8px; margin-top: 16px; }
+
+.btn-small {
+    padding: 8px 14px; border-radius: 8px; font-size: 0.8rem;
+    border: none; cursor: pointer; font-weight: 600; transition: 0.2s;
+    display: flex; align-items: center; gap: 6px;
+}
+
+.btn-topup { background: var(--primary); color: white; }
+.btn-topup:hover { background: var(--primary-hover); }
+
+.btn-history { background: var(--accent-bg); color: var(--accent); }
+.btn-history:hover { background: #cffafe; }
+
+/* History Box Animation */
 .history-box {
-    background: #F8FAFC;
-    padding: 10px;
-    border-radius: 8px;
-    margin-top: 10px;
-    display: none; /* Tersembunyi default */
-    border: 1px dashed #cbd5e1;
+    background: #f8fafc; padding: 16px; border-radius: 12px;
+    margin-top: 12px; display: none; border: 1px dashed #cbd5e1;
 }
-
-.history-box.show {
-    display: block;
-    animation: fadeIn 0.3s;
-}
-
+.history-box.show { display: block; animation: fadeIn 0.3s ease; }
 .history-item {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.8rem;
-    padding: 4px 0;
-    border-bottom: 1px solid #eee;
+    display: flex; justify-content: space-between;
+    font-size: 0.85rem; padding: 6px 0; border-bottom: 1px solid #f1f5f9;
     color: var(--text-muted);
 }
+.history-item:last-child { border-bottom: none; }
 
-/* Badge Selesai */
+/* Badge Complete */
 .badge-complete {
-    background: var(--success);
-    color: white;
-    padding: 4px 8px;
-    border-radius: 20px;
-    font-size: 0.7rem;
-    font-weight: bold;
-    display: inline-block;
-    margin-left: 5px;
+    background: var(--success); color: white; padding: 4px 10px;
+    border-radius: 20px; font-size: 0.7rem; font-weight: 700;
+    margin-left: 8px; display: inline-block; vertical-align: middle;
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}
+
+/* =========================================
+   8. MODAL & RESPONSIVE
+   ========================================= */
+.modal {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px);
+    align-items: center; justify-content: center; z-index: 1000;
+}
+
+.modal-content {
+    background: white; padding: 32px; border-radius: 24px;
+    width: 90%; max-width: 400px; position: relative;
+    box-shadow: var(--shadow-lg); animation: zoomIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.close-modal {
+    position: absolute; right: 24px; top: 20px; font-size: 1.5rem;
+    cursor: pointer; color: #94a3b8; transition: 0.2s;
+}
+.close-modal:hover { color: var(--danger); }
+
+/* Dark Mode Overrides */
+body.dark {
+    --bg-body: #0b1120; --white: #1e293b; --text-main: #f1f5f9;
+    --text-muted: #94a3b8; --primary-dark: #f8fafc;
+}
+body.dark .navbar { background: rgba(15, 23, 42, 0.8); border-color: #334155; }
+body.dark .nav-menu { background: rgba(30, 41, 59, 0.8); }
+body.dark .nav-link { color: #94a3b8; }
+body.dark .nav-link:hover { color: white; background: rgba(255,255,255,0.1); }
+body.dark .nav-link.active { background: #334155; color: white; }
+body.dark .card, body.dark .stat-card, body.dark .modal-content { background: #1e293b; border-color: #334155; }
+body.dark input, body.dark select { background: #0f172a; border-color: #334155; color: white; }
+body.dark .custom-list li { background: #1e293b; border-color: #334155; }
+body.dark .item-info small { background: #334155; color: #cbd5e1; }
+body.dark .history-box { background: #0f172a; border-color: #334155; }
+
+/* Responsive Mobile */
+@media (max-width: 768px) {
+    .balance-card-wrapper { grid-template-columns: 1fr; }
+    .content-grid { grid-template-columns: 1fr; }
+    .nav-link span.icon { font-size: 1.2rem; }
+    .nav-link { padding: 8px 16px; font-size: 0.85rem; }
 }
 
 @keyframes fadeIn { from { opacity:0; transform:translateY(-5px);} to { opacity:1; transform:translateY(0);} }
+@keyframes zoomIn { from { opacity:0; transform:scale(0.95);} to { opacity:1; transform:scale(1);} }
