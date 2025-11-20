@@ -1,157 +1,139 @@
 <!DOCTYPE html>
-<!-- Tombol Input Saldo -->
-<button id="inputSaldoBtn" class="btn-primary">Input Saldo</button>
-
-<!-- Modal Input Saldo -->
-<div id="saldoModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h3>Input Saldo</h3>
-    <form id="saldoForm">
-      <input type="text" id="namaSaldo" placeholder="Keterangan Saldo" required>
-      <input type="number" id="jumlahSaldo" placeholder="Nominal (Rp)" required>
-      <button type="submit" class="btn-primary">Tambah Saldo</button>
-    </form>
-  </div>
-</div>
-
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FULUSQ</title>
+    <title>FulusQ - Smart Finance</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- NAVBAR -->
     <header class="navbar">
-        <header class="navbar">
-    <h1 class="logo">FulusQ</h1>
-    <nav>
-        <a href="#dashboard">Dashboard</a>
-        <a href="#transaksi">Transaksi</a>
-        <a href="#budgeting">Budgeting</a>
-        <a href="#nabung">Nabung</a>
-    </nav>
-
-    <!-- TOGGLE MODE -->
-    <button id="modeToggle" class="mode-toggle">🌙</button>
-</header>
-
-        <h1 class="logo">FulusQ</h1>
-        <nav>
-            <a href="#dashboard">Dashboard</a>
-            <a href="#transaksi">Transaksi</a>
-            <a href="#budgeting">Budgeting</a>
-            <a href="#nabung">Nabung</a>
-        </nav>
+        <div class="container nav-container">
+            <h1 class="logo">Fulus<span>Q</span>.</h1>
+            <nav class="nav-links">
+                <a href="#dashboard">Dashboard</a>
+                <a href="#transaksi">Transaksi</a>
+                <a href="#budgeting">Budget</a>
+                <a href="#nabung">Nabung</a>
+            </nav>
+            <button id="modeToggle" class="mode-toggle" aria-label="Toggle Dark Mode">🌙</button>
+        </div>
     </header>
 
-    <!-- HERO SECTION -->
     <section class="hero">
-        <div class="hero-text">
-            <h2>Kelola Keuanganmu Dengan Mudah</h2>
-            <p>Pencatatan harian, budgeting pintar, dan fitur nabung dalam satu aplikasi.</p>
-            <a href="#dashboard" class="btn-primary">Mulai Sekarang</a>
-        </div>
-    </section>
-
-    <!-- DASHBOARD -->
-  <button id="inputSaldoBtn" class="btn-primary">Input Saldo</button>
-    <section class="dashboard" id="dashboard">
-        <h2 class="section-title">Dashboard Keuangan</h2>
-
-        <div class="dashboard-grid">
-            <div class="box saldo">
-                <h3>Total Saldo</h3>
-                <p id="totalSaldo">Rp 0</p>
-            </div>
-
-            <div class="box pemasukan">
-                <h3>Pemasukan Bulan Ini</h3>
-                <p id="totalPemasukan">Rp 0</p>
-            </div>
-
-            <div class="box pengeluaran">
-                <h3>Pengeluaran Bulan Ini</h3>
-                <p id="totalPengeluaran">Rp 0</p>
+        <div class="container hero-content">
+            <h2>Atur Keuangan,<br>Wujudkan Impian.</h2>
+            <p>Platform pencatatan keuangan modern dengan analisis pintar.</p>
+            <div class="hero-buttons">
+                <a href="#dashboard" class="btn-primary">Mulai Analisis</a>
+                <button id="btnOpenModalSaldo" class="btn-secondary">Set Saldo Awal</button>
             </div>
         </div>
     </section>
 
-    <!-- TRANSAKSI -->
-    <section id="transaksi" class="form-section">
-        <h2 class="section-title">Catat Transaksi</h2>
+    <section id="dashboard" class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Ringkasan Keuangan</h2>
+            <div class="dashboard-grid">
+                <div class="card saldo-card">
+                    <span class="card-label">Total Saldo</span>
+                    <h3 id="totalSaldo">Rp 0</h3>
+                </div>
+                <div class="card income-card">
+                    <span class="card-label">Pemasukan</span>
+                    <h3 id="totalPemasukan">Rp 0</h3>
+                </div>
+                <div class="card expense-card">
+                    <span class="card-label">Pengeluaran</span>
+                    <h3 id="totalPengeluaran">Rp 0</h3>
+                </div>
+            </div>
 
-        <form id="transaksiForm" class="form">
-            <input type="text" id="namaTransaksi" placeholder="Nama transaksi…" required>
-            <input type="number" id="jumlahTransaksi" placeholder="Jumlah (Rp)..." required>
+            <div class="chart-container-wrapper">
+                <div class="chart-box">
+                    <h4>Analisis Arus Kas</h4>
+                    <canvas id="keuanganChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding bg-light">
+        <div class="container grid-layout">
             
-            <select id="jenisTransaksi">
-                <option value="pemasukan">Pemasukan</option>
-                <option value="pengeluaran">Pengeluaran</option>
-            </select>
+            <div class="main-col">
+                <div id="transaksi" class="content-card">
+                    <h3>Catat Transaksi</h3>
+                    <form id="transaksiForm" class="modern-form">
+                        <div class="form-group">
+                            <input type="text" id="namaTransaksi" placeholder="Keperluan (mis: Makan Siang)" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" id="jumlahTransaksi" placeholder="Nominal (Rp)" required>
+                        </div>
+                        <div class="form-group">
+                            <select id="jenisTransaksi">
+                                <option value="pengeluaran">Pengeluaran</option>
+                                <option value="pemasukan">Pemasukan</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-block">Simpan Transaksi</button>
+                    </form>
 
-            <button type="submit" class="btn-primary">Tambah</button>
-        </form>
+                    <div class="list-header">
+                        <h4>Riwayat Terakhir</h4>
+                    </div>
+                    <ul id="listTransaksi" class="list-group"></ul>
+                </div>
+            </div>
 
-        <h3 class="list-title">Daftar Transaksi</h3>
-        <ul id="listTransaksi" class="list"></ul>
-        
+            <div class="sidebar-col">
+                <div id="budgeting" class="content-card mb-2">
+                    <h3>Budgeting</h3>
+                    <form id="budgetForm" class="mini-form">
+                        <input type="text" id="namaBudget" placeholder="Nama Pos" required>
+                        <input type="number" id="jumlahBudget" placeholder="Limit" required>
+                        <button type="submit" class="btn-icon">+</button>
+                    </form>
+                    <ul id="listBudget" class="list-simple"></ul>
+                </div>
+
+                <div id="nabung" class="content-card">
+                    <h3>Target Nabung</h3>
+                    <form id="nabungForm" class="mini-form">
+                        <input type="text" id="namaTabungan" placeholder="Tujuan" required>
+                        <input type="number" id="jumlahTarget" placeholder="Target" required>
+                        <button type="submit" class="btn-icon">+</button>
+                    </form>
+                    <ul id="listNabung" class="list-simple"></ul>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- BUDGETING -->
-    <section id="budgeting" class="form-section">
-        <h2 class="section-title">Budgeting</h2>
+    <div id="saldoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Input Saldo Tambahan</h3>
+            <form id="saldoForm" class="modern-form">
+                <input type="text" id="namaSaldo" placeholder="Sumber Dana" required>
+                <input type="number" id="jumlahSaldo" placeholder="Nominal (Rp)" required>
+                <button type="submit" class="btn-block">Tambah Saldo</button>
+            </form>
+        </div>
+    </div>
 
-        <form id="budgetForm" class="form">
-            <input type="text" id="namaBudget" placeholder="Nama budget…" required>
-            <input type="number" id="jumlahBudget" placeholder="Nominal (Rp)…" required>
-            <button type="submit" class="btn-primary">Simpan Budget</button>
-        </form>
-
-        <h3 class="list-title">Daftar Budget</h3>
-        <ul id="listBudget" class="list"></ul>
-    </section>
-
-    <!-- NABUNG / SAVING GOALS -->
-    <section id="nabung" class="form-section">
-        <h2 class="section-title">Target Nabung</h2>
-
-        <form id="nabungForm" class="form">
-            <input type="text" id="namaTabungan" placeholder="Nama target…" required>
-            <input type="number" id="jumlahTarget" placeholder="Target (Rp)…" required>
-            <button type="submit" class="btn-primary">Tambah Target</button>
-        </form>
-
-        <h3 class="list-title">Daftar Target Nabung</h3>
-        <ul id="listNabung" class="list"></ul>
-    </section>
-
-    <!-- FOOTER -->
     <footer>
-        <p>&copy; 2025 Fulus.Q – Aplikasi untuk membantu Keuanganmu</p>
+        <div class="container">
+            <p>&copy; 2025 FulusQ. Crafted with code & coffee.</p>
+        </div>
     </footer>
 
-    <script src="script.js"></script>
-    <!-- CHART KEUANGAN -->
-    <section id="chartSection" class="form-section">
-        <h2 class="section-title">Diagram Keuangan</h2>
-        <canvas id="keuanganChart" width="400" height="200"></canvas>
-    </section>
-
-    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
-    <canvas>
-        <h3>Pemasukan & Pengeluaran Harian</h3>
-        <canvas id="lineChart" width="400" height="200"></canvas>
-    </canvas>
-
 </body>
 </html>
