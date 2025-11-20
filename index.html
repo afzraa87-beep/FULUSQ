@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FulusQ - Smart Finance</title>
+    <title>FulusQ - Kelola Keuanganmu</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -28,7 +28,7 @@
                 </button>
             </div>
 
-            <button id="modeToggle" class="mode-toggle">🌙</button>
+            <button id="modeToggle" class="mode-toggle" aria-label="Ganti Tema">🌙</button>
         </div>
     </nav>
 
@@ -39,7 +39,7 @@
                     <p class="label">Total Saldo Dompet</p>
                     <h2 id="totalSaldo">Rp 0</h2>
                     <div class="balance-actions">
-                        <button id="btnInputSaldo" class="btn-white-outline">Update Saldo</button>
+                        <button id="btnInputSaldo" class="btn-white-outline">✏️ Update Saldo</button>
                     </div>
                 </div>
                 <div class="stats-grid">
@@ -67,7 +67,7 @@
                     </div>
                     <form id="transaksiForm" class="modern-form">
                         <div class="input-group">
-                            <input type="text" id="namaTransaksi" placeholder="Keperluan" required>
+                            <input type="text" id="namaTransaksi" placeholder="Keperluan (contoh: Nasi Goreng)" required>
                         </div>
                         <div class="form-row">
                             <div class="input-group">
@@ -87,9 +87,10 @@
                 <div class="card list-card">
                     <div class="card-header">
                         <h3>Riwayat Terakhir</h3>
-                        <button class="btn-text-danger" onclick="hapusSemua('transaksi')">Reset</button>
+                        <button class="btn-text-danger" onclick="hapusSemua('transaksi')">Reset Semua</button>
                     </div>
-                    <ul id="listTransaksi" class="custom-list"></ul>
+                    <ul id="listTransaksi" class="custom-list">
+                        </ul>
                 </div>
             </div>
         </div>
@@ -98,19 +99,20 @@
     <main id="page-budget" class="page-section">
         <div class="container">
             <div class="header-section">
-                <h2>Atur Budget</h2>
-                <p>Kelola batas pengeluaran bulananmu.</p>
+                <h2>Atur Budget Bulanan</h2>
+                <p>Jaga pengeluaranmu agar tidak 'boncos'.</p>
             </div>
             <div class="content-grid">
                 <div class="card form-card">
-                    <h3>Tambah Budget</h3>
+                    <h3>Tambah Pos Budget</h3>
                     <form id="budgetForm" class="modern-form">
-                        <input type="text" id="namaBudget" placeholder="Nama Pos (mis: Makan)" required>
-                        <input type="number" id="jumlahBudget" placeholder="Limit (Rp)" required>
-                        <button type="submit" class="btn-primary">Simpan</button>
+                        <input type="text" id="namaBudget" placeholder="Nama Pos (contoh: Transport)" required>
+                        <input type="number" id="jumlahBudget" placeholder="Batas Limit (Rp)" required>
+                        <button type="submit" class="btn-primary">Simpan Budget</button>
                     </form>
                 </div>
                 <div class="card list-card">
+                    <h3>Daftar Budget</h3>
                     <ul id="listBudget" class="custom-list"></ul>
                 </div>
             </div>
@@ -121,16 +123,16 @@
         <div class="container">
             <div class="header-section">
                 <h2>Target Impian 🏆</h2>
-                <p>Tabung sedikit demi sedikit, lama-lama menjadi bukit.</p>
+                <p>Pantau celenganmu. Dikit-dikit lama-lama jadi bukit!</p>
             </div>
 
             <div class="content-grid">
                 <div class="card form-card">
-                    <h3>Target Baru</h3>
+                    <h3>Buat Target Baru</h3>
                     <form id="nabungForm" class="modern-form">
-                        <input type="text" id="namaTabungan" placeholder="Tujuan (mis: Beli HP)" required>
+                        <input type="text" id="namaTabungan" placeholder="Tujuan (contoh: Beli Laptop)" required>
                         <input type="number" id="jumlahTarget" placeholder="Target Nominal (Rp)" required>
-                        <button type="submit" class="btn-primary">Buat Target</button>
+                        <button type="submit" class="btn-primary">Mulai Nabung</button>
                     </form>
                 </div>
 
@@ -147,7 +149,7 @@
             <span class="close-modal" onclick="closeModal('saldoModal')">&times;</span>
             <h3>Update Saldo Dompet</h3>
             <form id="saldoForm" class="modern-form">
-                <input type="text" id="namaSaldo" placeholder="Sumber Dana" required>
+                <input type="text" id="namaSaldo" placeholder="Sumber Dana (contoh: Gaji)" required>
                 <input type="number" id="jumlahSaldo" placeholder="Nominal (Rp)" required>
                 <button type="submit" class="btn-primary">Simpan</button>
             </form>
@@ -157,8 +159,8 @@
     <div id="topupModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('topupModal')">&times;</span>
-            <h3>Isi Tabungan 💰</h3>
-            <p id="topupTitle" style="margin-bottom:15px; color:#666;">Untuk target: ...</p>
+            <h3>Isi Celengan 💰</h3>
+            <p id="topupTitle" style="margin-bottom:20px; color:#64748b;">Menabung untuk...</p>
             <form id="topupForm" class="modern-form">
                 <input type="hidden" id="topupIndex">
                 <input type="number" id="jumlahTopup" placeholder="Masukkan Jumlah (Rp)" required>
