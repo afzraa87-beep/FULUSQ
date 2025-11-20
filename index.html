@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FulusQ - Smart Finance</title>
+    <title>FulusQ - Keuangan Simpel</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -26,37 +26,33 @@
 
     <section class="hero">
         <div class="container hero-content">
-            <h2>Atur Keuangan,<br>Wujudkan Impian.</h2>
-            <p>Platform pencatatan keuangan modern dengan analisis pintar.</p>
+            <h2>Keuangan Rapi,<br>Hidup Lebih Happy.</h2>
+            <p>Catat pemasukan dan pengeluaranmu tanpa ribet.</p>
             <div class="hero-buttons">
-                <a href="#dashboard" class="btn-primary">Mulai Analisis</a>
-                <button id="btnOpenModalSaldo" class="btn-secondary">Set Saldo Awal</button>
+                <a href="#dashboard" class="btn-primary">Mulai Mencatat</a>
+                <button id="btnOpenModalSaldo" class="btn-secondary">Input Saldo Awal</button>
             </div>
         </div>
     </section>
 
     <section id="dashboard" class="section-padding">
         <div class="container">
-            <h2 class="section-title">Ringkasan Keuangan</h2>
+            <h2 class="section-title">Ringkasan Dompet</h2>
             <div class="dashboard-grid">
                 <div class="card saldo-card">
-                    <span class="card-label">Total Saldo</span>
+                    <div class="icon-wrapper">💰</div>
+                    <span class="card-label">Sisa Saldo</span>
                     <h3 id="totalSaldo">Rp 0</h3>
                 </div>
                 <div class="card income-card">
-                    <span class="card-label">Pemasukan</span>
+                    <div class="icon-wrapper">📉</div>
+                    <span class="card-label">Pemasukan Bulan Ini</span>
                     <h3 id="totalPemasukan">Rp 0</h3>
                 </div>
                 <div class="card expense-card">
-                    <span class="card-label">Pengeluaran</span>
+                    <div class="icon-wrapper">📈</div>
+                    <span class="card-label">Pengeluaran Bulan Ini</span>
                     <h3 id="totalPengeluaran">Rp 0</h3>
-                </div>
-            </div>
-
-            <div class="chart-container-wrapper">
-                <div class="chart-box">
-                    <h4>Analisis Arus Kas</h4>
-                    <canvas id="keuanganChart"></canvas>
                 </div>
             </div>
         </div>
@@ -67,25 +63,28 @@
             
             <div class="main-col">
                 <div id="transaksi" class="content-card">
-                    <h3>Catat Transaksi</h3>
+                    <h3>📝 Catat Transaksi Baru</h3>
                     <form id="transaksiForm" class="modern-form">
-                        <div class="form-group">
-                            <input type="text" id="namaTransaksi" placeholder="Keperluan (mis: Makan Siang)" required>
+                        <div class="form-row">
+                            <div class="form-group grow">
+                                <input type="text" id="namaTransaksi" placeholder="Contoh: Beli Kopi" required>
+                            </div>
+                            <div class="form-group">
+                                <select id="jenisTransaksi">
+                                    <option value="pengeluaran">Pengeluaran</option>
+                                    <option value="pemasukan">Pemasukan</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="form-group">
                             <input type="number" id="jumlahTransaksi" placeholder="Nominal (Rp)" required>
                         </div>
-                        <div class="form-group">
-                            <select id="jenisTransaksi">
-                                <option value="pengeluaran">Pengeluaran</option>
-                                <option value="pemasukan">Pemasukan</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn-block">Simpan Transaksi</button>
+                        <button type="submit" class="btn-block">Simpan</button>
                     </form>
 
                     <div class="list-header">
                         <h4>Riwayat Terakhir</h4>
+                        <small onclick="window.hapusSemua('transaksi')" style="cursor:pointer; color:red;">Reset Log</small>
                     </div>
                     <ul id="listTransaksi" class="list-group"></ul>
                 </div>
@@ -93,7 +92,8 @@
 
             <div class="sidebar-col">
                 <div id="budgeting" class="content-card mb-2">
-                    <h3>Budgeting</h3>
+                    <h3>🛡️ Budgeting</h3>
+                    <p class="card-desc">Batasi pengeluaran per kategori.</p>
                     <form id="budgetForm" class="mini-form">
                         <input type="text" id="namaBudget" placeholder="Nama Pos" required>
                         <input type="number" id="jumlahBudget" placeholder="Limit" required>
@@ -103,7 +103,8 @@
                 </div>
 
                 <div id="nabung" class="content-card">
-                    <h3>Target Nabung</h3>
+                    <h3>🎯 Target Nabung</h3>
+                    <p class="card-desc">Pantau progress impianmu.</p>
                     <form id="nabungForm" class="mini-form">
                         <input type="text" id="namaTabungan" placeholder="Tujuan" required>
                         <input type="number" id="jumlahTarget" placeholder="Target" required>
@@ -129,11 +130,10 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 FulusQ. Crafted with code & coffee.</p>
+            <p>&copy; 2025 FulusQ. Simpel & Efektif.</p>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
