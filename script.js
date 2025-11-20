@@ -120,7 +120,25 @@ function renderTransaksi() {
             <button class="delete-btn" onclick="hapusTransaksi(${i})">Hapus</button>
         `;
         listTransaksi.appendChild(li);
+       updateDashboard();   // update total saldo, pemasukan, pengeluaran
+       updateBarChart();    // update chart bar
+       updatePieChart();    // update pie chart pengeluaran per kategori
+       updateProgress();    // update progress target nabung
+
     });
+   transaksiForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+    
+    const nama = document.getElementById("namaTransaksi").value;
+    const jumlah = parseInt(document.getElementById("jumlahTransaksi").value);
+    const jenis = document.getElementById("jenisTransaksi").value;
+    const kategori = document.getElementById("kategoriTransaksi").value;
+
+    transaksi.push({nama, jumlah, jenis, kategori});
+    transaksiForm.reset();
+
+    renderTransaksi(); // <== otomatis update dashboard & chart
+});
 
     updateDashboard();
 }
@@ -201,7 +219,22 @@ nabungForm.addEventListener("submit", function(e) {
 
     nabungForm.reset();
     renderNabung();
+   
 });
+function updateProgress() {
+    // hitung saldo saat ini
+    const totalSaldo = transaksi
+        .filter(t => t.jenis === "pemasukan").reduce((a,b)=>a+b.jumlah,0) -
+        transaksi.filter(t => t.jenis === "pengeluaran").reduce((a,b)=>a+b.jumlah,0);
+    
+    // update semua progress bar sesuai saldo
+    nabungTargets.forEach((n, i) => {
+        const progress = Math.min((totalSaldo / n.jumlah) * 100, 100);
+        const progressBar = document.querySelectorAll(".progress")[i];
+        if(progressBar) progressBar.style.width = progress + "%";
+    });
+}
+
 
 /* ============================
    DELETE FUNCTIONS
