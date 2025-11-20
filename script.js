@@ -185,6 +185,25 @@ function renderNabung() {
         if(progressBar) progressBar.style.width = progress + "%";
     });
 }
+const inputSaldoBtn = document.getElementById("inputSaldoBtn");
+
+inputSaldoBtn.addEventListener("click", () => {
+    const nama = prompt("Keterangan Saldo:");
+    if (!nama) return;
+
+    const jumlahInput = prompt("Masukkan jumlah saldo (Rp):");
+    const jumlah = parseInt(jumlahInput);
+    if (isNaN(jumlah) || jumlah <= 0) {
+        alert("Jumlah tidak valid!");
+        return;
+    }
+
+    // Tambahkan sebagai transaksi pemasukan
+    transaksi.push({nama, jumlah, jenis:"pemasukan", kategori:"Saldo"});
+
+    // Render ulang semua data
+    renderTransaksi();
+});
 
     });
 }
@@ -203,6 +222,7 @@ transaksiForm.addEventListener("submit", function(e) {
 
     transaksiForm.reset();
     renderTransaksi();
+   
 });
 
 /* ============================
