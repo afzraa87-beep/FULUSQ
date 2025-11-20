@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi KeuanganKu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <h1 class="logo">FinKu</h1>
+        <nav>
+            <a href="#dashboard">Dashboard</a>
+            <a href="#transaksi">Transaksi</a>
+            <a href="#budgeting">Budgeting</a>
+            <a href="#nabung">Nabung</a>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-text">
+            <h2>Kelola Keuanganmu Dengan Mudah</h2>
+            <p>Pencatatan harian, budgeting pintar, dan fitur nabung dalam satu aplikasi.</p>
+            <a href="#dashboard" class="btn-primary">Mulai Sekarang</a>
+        </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section class="dashboard" id="dashboard">
+        <h2 class="section-title">Dashboard Keuangan</h2>
+
+        <div class="dashboard-grid">
+            <div class="box saldo">
+                <h3>Total Saldo</h3>
+                <p id="totalSaldo">Rp 0</p>
+            </div>
+
+            <div class="box pemasukan">
+                <h3>Pemasukan Bulan Ini</h3>
+                <p id="totalPemasukan">Rp 0</p>
+            </div>
+
+            <div class="box pengeluaran">
+                <h3>Pengeluaran Bulan Ini</h3>
+                <p id="totalPengeluaran">Rp 0</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRANSAKSI -->
+    <section id="transaksi" class="form-section">
+        <h2 class="section-title">Catat Transaksi</h2>
+
+        <form id="transaksiForm" class="form">
+            <input type="text" id="namaTransaksi" placeholder="Nama transaksi…" required>
+            <input type="number" id="jumlahTransaksi" placeholder="Jumlah (Rp)..." required>
+            
+            <select id="jenisTransaksi">
+                <option value="pemasukan">Pemasukan</option>
+                <option value="pengeluaran">Pengeluaran</option>
+            </select>
+
+            <button type="submit" class="btn-primary">Tambah</button>
+        </form>
+
+        <h3 class="list-title">Daftar Transaksi</h3>
+        <ul id="listTransaksi" class="list"></ul>
+    </section>
+
+    <!-- BUDGETING -->
+    <section id="budgeting" class="form-section">
+        <h2 class="section-title">Budgeting</h2>
+
+        <form id="budgetForm" class="form">
+            <input type="text" id="namaBudget" placeholder="Nama budget…" required>
+            <input type="number" id="jumlahBudget" placeholder="Nominal (Rp)…" required>
+            <button type="submit" class="btn-primary">Simpan Budget</button>
+        </form>
+
+        <h3 class="list-title">Daftar Budget</h3>
+        <ul id="listBudget" class="list"></ul>
+    </section>
+
+    <!-- NABUNG / SAVING GOALS -->
+    <section id="nabung" class="form-section">
+        <h2 class="section-title">Target Nabung</h2>
+
+        <form id="nabungForm" class="form">
+            <input type="text" id="namaTabungan" placeholder="Nama target…" required>
+            <input type="number" id="jumlahTarget" placeholder="Target (Rp)…" required>
+            <button type="submit" class="btn-primary">Tambah Target</button>
+        </form>
+
+        <h3 class="list-title">Daftar Target Nabung</h3>
+        <ul id="listNabung" class="list"></ul>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2025 FinKu – Aplikasi Keuangan</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
