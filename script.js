@@ -1,12 +1,10 @@
 /* ============================
    STATE & INITIALIZATION
 ============================ */
-// Ambil data dari LocalStorage atau inisialisasi array kosong
 let transaksi = JSON.parse(localStorage.getItem("transaksi")) || [];
 let budgets = JSON.parse(localStorage.getItem("budgets")) || [];
 let nabungTargets = JSON.parse(localStorage.getItem("nabungTargets")) || [];
 
-// DOM Elements
 const els = {
     transaksiForm: document.getElementById("transaksiForm"),
     listTransaksi: document.getElementById("listTransaksi"),
@@ -26,14 +24,12 @@ const els = {
     modeToggle: document.getElementById("modeToggle")
 };
 
-// Format Rupiah Helper
 const formatRupiah = (num) => "Rp " + num.toLocaleString("id-ID");
 
 /* ============================
-   CORE FUNCTIONS (LOGIC)
+   CORE LOGIC
 ============================ */
 
-// Simpan ke LocalStorage
 function saveData() {
     localStorage.setItem("transaksi", JSON.stringify(transaksi));
     localStorage.setItem("budgets", JSON.stringify(budgets));
@@ -41,7 +37,6 @@ function saveData() {
     updateUI();
 }
 
-// Hitung Total
 function getSummary() {
     const totalPemasukan = transaksi
         .filter(t => t.jenis === "pemasukan")
@@ -59,33 +54,32 @@ function getSummary() {
 }
 
 /* ============================
-   RENDERING (VIEW)
+   RENDER VIEW
 ============================ */
 
 function updateUI() {
     const summary = getSummary();
 
-    // 1. Update Kartu Dashboard
+    // Update Summary Cards
     els.display.pemasukan.textContent = formatRupiah(summary.pemasukan);
     els.display.pengeluaran.textContent = formatRupiah(summary.pengeluaran);
     els.display.saldo.textContent = formatRupiah(summary.saldo);
 
-    // 2. Render Lists
+    // Render Lists
     renderTransaksiList();
     renderBudgetList();
     renderNabungList(summary.saldo);
-    
-    // 3. Update Chart
-    updateChart(summary);
 }
 
 function renderTransaksiList() {
     els.listTransaksi.innerHTML = "";
-    // Tampilkan 5 transaksi terakhir (terbaru di atas)
+    if (transaksi.length === 0) {
+        els.listTransaksi.innerHTML = "<li style='justify-content:center; color:#999;'>Belum ada transaksi</li>";
+        return;
+    }
+
     transaksi.slice().reverse().forEach((t, i) => {
-        // Karena kita reverse array copy, kita butuh index asli untuk hapus
         const originalIndex = transaksi.length - 1 - i;
-        
         const li = document.createElement("li");
         li.innerHTML = `
             <div class="transaction-info">
@@ -94,7 +88,7 @@ function renderTransaksiList() {
             </div>
             <div style="display:flex; align-items:center;">
                 <span class="amount ${t.jenis}">${t.jenis === 'pemasukan' ? '+' : '-'} ${formatRupiah(t.jumlah)}</span>
-                <button class="delete-btn" onclick="hapusData('transaksi', ${originalIndex})">×</button>
+                <button class="delete-btn" onclick="hapusData('transaksi', ${originalIndex})">Hapus</button>
             </div>
         `;
         els.listTransaksi.appendChild(li);
@@ -120,18 +114,18 @@ function renderNabungList(currentSaldo) {
         const isReached = currentSaldo >= n.jumlah;
         
         const li = document.createElement("li");
-        li.style.display = "block"; // Override flex for vertical stack layout inside li
+        li.style.display = "block"; 
         li.innerHTML = `
-            <div style="display:flex; justify-content:space-between;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
                 <strong>${n.nama}</strong>
                 <span>${formatRupiah(n.jumlah)}</span>
             </div>
             <div class="progress-container">
                 <div class="progress-bar" style="width: ${Math.max(0, progress)}%; background-color: ${isReached ? '#4CC9F0' : '#4361EE'}"></div>
             </div>
-            <div style="text-align:right; margin-top:5px;">
-                <small>${Math.floor(progress)}% tercapai</small>
-                <button class="delete-btn" onclick="hapusData('nabung', ${i})">×</button>
+            <div style="text-align:right; font-size:0.8rem; color:#888; margin-top:4px;">
+                ${Math.floor(progress)}% tercapai
+                <button class="delete-btn" onclick="hapusData('nabung', ${i})" style="margin-left:10px; padding:2px 8px;">×</button>
             </div>
         `;
         els.listNabung.appendChild(li);
@@ -139,47 +133,10 @@ function renderNabungList(currentSaldo) {
 }
 
 /* ============================
-   CHART JS
-============================ */
-let myChart = null;
-
-function updateChart(summary) {
-    const ctx = document.getElementById("keuanganChart").getContext("2d");
-    
-    if (myChart) {
-        myChart.data.datasets[0].data = [summary.pemasukan, summary.pengeluaran, summary.saldo];
-        myChart.update();
-    } else {
-        myChart = new Chart(ctx, {
-            type: "bar",
-            data: {
-                labels: ["Pemasukan", "Pengeluaran", "Sisa Saldo"],
-                datasets: [{
-                    label: "Analisis Keuangan",
-                    data: [summary.pemasukan, summary.pengeluaran, summary.saldo],
-                    backgroundColor: ["#4CC9F0", "#F72585", "#4361EE"],
-                    borderRadius: 8,
-                    barThickness: 40
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: {
-                    y: { beginAtZero: true, grid: { color: '#eee' } },
-                    x: { grid: { display: false } }
-                }
-            }
-        });
-    }
-}
-
-/* ============================
    EVENT LISTENERS
 ============================ */
 
-// Tambah Transaksi
+// Add Transaction
 els.transaksiForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const nama = document.getElementById("namaTransaksi").value;
@@ -193,7 +150,7 @@ els.transaksiForm.addEventListener("submit", (e) => {
     }
 });
 
-// Tambah Budget
+// Add Budget
 els.budgetForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const nama = document.getElementById("namaBudget").value;
@@ -205,7 +162,7 @@ els.budgetForm.addEventListener("submit", (e) => {
     }
 });
 
-// Tambah Target Nabung
+// Add Saving Target
 els.nabungForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const nama = document.getElementById("namaTabungan").value;
@@ -217,7 +174,7 @@ els.nabungForm.addEventListener("submit", (e) => {
     }
 });
 
-// Modal Saldo
+// Modal Handlers
 els.btnOpenModal.addEventListener("click", () => els.modal.style.display = "flex");
 els.btnCloseModal.addEventListener("click", () => els.modal.style.display = "none");
 window.onclick = (e) => { if (e.target == els.modal) els.modal.style.display = "none"; };
@@ -233,16 +190,15 @@ els.saldoForm.addEventListener("submit", (e) => {
     saveData();
 });
 
-// Dark Mode
+// Dark Mode Toggle
 els.modeToggle.addEventListener("click", () => {
     document.body.classList.toggle("dark");
-    const isDark = document.body.classList.contains("dark");
-    els.modeToggle.textContent = isDark ? "☀️" : "🌙";
+    els.modeToggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
 });
 
-// Global Function untuk tombol Hapus (karena dipanggil via onclick di HTML string)
+// Helper Functions (Global scope for inline onClick)
 window.hapusData = function(type, index) {
-    if (confirm("Yakin ingin menghapus data ini?")) {
+    if (confirm("Hapus item ini?")) {
         if (type === 'transaksi') transaksi.splice(index, 1);
         if (type === 'budget') budgets.splice(index, 1);
         if (type === 'nabung') nabungTargets.splice(index, 1);
@@ -250,5 +206,12 @@ window.hapusData = function(type, index) {
     }
 };
 
-// Init Pertama Kali
+window.hapusSemua = function(type) {
+    if (type === 'transaksi' && confirm("Yakin hapus SEMUA riwayat transaksi? Saldo akan berubah.")) {
+        transaksi = [];
+        saveData();
+    }
+};
+
+// Init App
 updateUI();
