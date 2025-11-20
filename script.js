@@ -172,6 +172,20 @@ function renderNabung() {
             <button class="delete-btn" onclick="hapusNabung(${i})">Hapus</button>
         `;
         listNabung.appendChild(li);
+       function updateProgress() {
+    // hitung saldo saat ini
+    const totalSaldo = transaksi
+        .filter(t => t.jenis === "pemasukan").reduce((a,b)=>a+b.jumlah,0) -
+        transaksi.filter(t => t.jenis === "pengeluaran").reduce((a,b)=>a+b.jumlah,0);
+    
+    // update semua progress bar sesuai saldo
+    nabungTargets.forEach((n, i) => {
+        const progress = Math.min((totalSaldo / n.jumlah) * 100, 100);
+        const progressBar = document.querySelectorAll(".progress")[i];
+        if(progressBar) progressBar.style.width = progress + "%";
+    });
+}
+
     });
 }
 
