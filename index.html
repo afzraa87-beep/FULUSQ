@@ -1,4 +1,20 @@
 <!DOCTYPE html>
+<!-- Tombol Input Saldo -->
+<button id="inputSaldoBtn" class="btn-primary">Input Saldo</button>
+
+<!-- Modal Input Saldo -->
+<div id="saldoModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h3>Input Saldo</h3>
+    <form id="saldoForm">
+      <input type="text" id="namaSaldo" placeholder="Keterangan Saldo" required>
+      <input type="number" id="jumlahSaldo" placeholder="Nominal (Rp)" required>
+      <button type="submit" class="btn-primary">Tambah Saldo</button>
+    </form>
+  </div>
+</div>
+
 <html lang="id">
 <head>
     <meta charset="UTF-8">
