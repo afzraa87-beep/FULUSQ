@@ -201,3 +201,73 @@ footer {
 .delete-btn:hover {
     background-color: #e57a36;
 }
+/* =========================
+   MODE GELAP / DARK MODE
+========================= */
+body.dark {
+    background-color: #1D3557;
+    color: #FFFFFF;
+}
+
+body.dark .navbar {
+    background-color: #1D3557;
+}
+
+body.dark .navbar nav a {
+    color: #A8DADC;
+}
+
+body.dark .navbar nav a:hover {
+    color: #FF8C42;
+}
+
+body.dark .hero {
+    background: linear-gradient(to right, #457B9D, #1D3557);
+    color: #FFFFFF;
+}
+
+body.dark .dashboard .box {
+    background-color: #2a3e5c;
+    color: #FFFFFF;
+}
+
+body.dark .form-section {
+    background-color: #2a3e5c;
+    color: #FFFFFF;
+}
+
+body.dark .form input, 
+body.dark .form select {
+    background-color: #1D3557;
+    border-color: #A8DADC;
+    color: #FFFFFF;
+}
+
+body.dark .list li {
+    background-color: #2a3e5c;
+    color: #FFFFFF;
+}
+
+body.dark .btn-primary {
+    background-color: #FF8C42;
+    color: #FFFFFF;
+}
+
+body.dark .delete-btn {
+    background-color: #FF8C42;
+    color: #FFFFFF;
+}
+
+.mode-toggle {
+    font-size: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #FFFFFF;
+    transition: 0.3s;
+}
+
+.mode-toggle:hover {
+    transform: scale(1.2);
+}
+
