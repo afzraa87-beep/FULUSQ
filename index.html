@@ -3,118 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FulusQ - Keuangan Simpel</title>
+    <title>FulusQ - Smart Finance</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header class="navbar">
+    <nav class="navbar">
         <div class="container nav-container">
-            <h1 class="logo">Fulus<span>Q</span>.</h1>
-            <nav class="nav-links">
-                <a href="#dashboard">Dashboard</a>
-                <a href="#transaksi">Transaksi</a>
-                <a href="#budgeting">Budget</a>
-                <a href="#nabung">Nabung</a>
-            </nav>
-            <button id="modeToggle" class="mode-toggle" aria-label="Toggle Dark Mode">🌙</button>
-        </div>
-    </header>
-
-    <section class="hero">
-        <div class="container hero-content">
-            <h2>Keuangan Rapi,<br>Hidup Lebih Happy.</h2>
-            <p>Catat pemasukan dan pengeluaranmu tanpa ribet.</p>
-            <div class="hero-buttons">
-                <a href="#dashboard" class="btn-primary">Mulai Mencatat</a>
-                <button id="btnOpenModalSaldo" class="btn-secondary">Input Saldo Awal</button>
-            </div>
-        </div>
-    </section>
-
-    <section id="dashboard" class="section-padding">
-        <div class="container">
-            <h2 class="section-title">Ringkasan Dompet</h2>
-            <div class="dashboard-grid">
-                <div class="card saldo-card">
-                    <div class="icon-wrapper">💰</div>
-                    <span class="card-label">Sisa Saldo</span>
-                    <h3 id="totalSaldo">Rp 0</h3>
-                </div>
-                <div class="card income-card">
-                    <div class="icon-wrapper">📉</div>
-                    <span class="card-label">Pemasukan Bulan Ini</span>
-                    <h3 id="totalPemasukan">Rp 0</h3>
-                </div>
-                <div class="card expense-card">
-                    <div class="icon-wrapper">📈</div>
-                    <span class="card-label">Pengeluaran Bulan Ini</span>
-                    <h3 id="totalPengeluaran">Rp 0</h3>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section-padding bg-light">
-        <div class="container grid-layout">
+            <h1 class="logo">Fulus<span class="highlight">Q</span>.</h1>
             
-            <div class="main-col">
-                <div id="transaksi" class="content-card">
-                    <h3>📝 Catat Transaksi Baru</h3>
+            <div class="nav-menu">
+                <button class="nav-link active" onclick="showPage('dashboard')">
+                    <span class="icon">🏠</span> Dashboard
+                </button>
+                <button class="nav-link" onclick="showPage('budget')">
+                    <span class="icon">📊</span> Budgeting
+                </button>
+                <button class="nav-link" onclick="showPage('nabung')">
+                    <span class="icon">🎯</span> Nabung
+                </button>
+            </div>
+
+            <button id="modeToggle" class="mode-toggle">🌙</button>
+        </div>
+    </nav>
+
+    <main id="page-dashboard" class="page-section active">
+        <div class="container">
+            <div class="balance-card-wrapper">
+                <div class="balance-card">
+                    <p class="label">Total Saldo Saat Ini</p>
+                    <h2 id="totalSaldo">Rp 0</h2>
+                    <div class="balance-actions">
+                        <button id="btnInputSaldo" class="btn-white-outline">Set Saldo Awal</button>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card income">
+                        <div class="icon-box">↓</div>
+                        <div>
+                            <p>Pemasukan</p>
+                            <h4 id="totalPemasukan">Rp 0</h4>
+                        </div>
+                    </div>
+                    <div class="stat-card expense">
+                        <div class="icon-box">↑</div>
+                        <div>
+                            <p>Pengeluaran</p>
+                            <h4 id="totalPengeluaran">Rp 0</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <div class="card form-card">
+                    <div class="card-header">
+                        <h3>Catat Transaksi</h3>
+                    </div>
                     <form id="transaksiForm" class="modern-form">
+                        <div class="input-group">
+                            <input type="text" id="namaTransaksi" placeholder="Keperluan (mis: Nasi Padang)" required>
+                        </div>
                         <div class="form-row">
-                            <div class="form-group grow">
-                                <input type="text" id="namaTransaksi" placeholder="Contoh: Beli Kopi" required>
+                            <div class="input-group">
+                                <input type="number" id="jumlahTransaksi" placeholder="Nominal (Rp)" required>
                             </div>
-                            <div class="form-group">
+                            <div class="input-group">
                                 <select id="jenisTransaksi">
                                     <option value="pengeluaran">Pengeluaran</option>
                                     <option value="pemasukan">Pemasukan</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <input type="number" id="jumlahTransaksi" placeholder="Nominal (Rp)" required>
-                        </div>
-                        <button type="submit" class="btn-block">Simpan</button>
+                        <button type="submit" class="btn-primary">Simpan Transaksi</button>
                     </form>
+                </div>
 
-                    <div class="list-header">
-                        <h4>Riwayat Terakhir</h4>
-                        <small onclick="window.hapusSemua('transaksi')" style="cursor:pointer; color:red;">Reset Log</small>
+                <div class="card list-card">
+                    <div class="card-header">
+                        <h3>Riwayat Terakhir</h3>
+                        <button class="btn-text-danger" onclick="hapusSemua('transaksi')">Reset</button>
                     </div>
-                    <ul id="listTransaksi" class="list-group"></ul>
-                </div>
-            </div>
-
-            <div class="sidebar-col">
-                <div id="budgeting" class="content-card mb-2">
-                    <h3>🛡️ Budgeting</h3>
-                    <p class="card-desc">Batasi pengeluaran per kategori.</p>
-                    <form id="budgetForm" class="mini-form">
-                        <input type="text" id="namaBudget" placeholder="Nama Pos" required>
-                        <input type="number" id="jumlahBudget" placeholder="Limit" required>
-                        <button type="submit" class="btn-icon">+</button>
-                    </form>
-                    <ul id="listBudget" class="list-simple"></ul>
-                </div>
-
-                <div id="nabung" class="content-card">
-                    <h3>🎯 Target Nabung</h3>
-                    <p class="card-desc">Pantau progress impianmu.</p>
-                    <form id="nabungForm" class="mini-form">
-                        <input type="text" id="namaTabungan" placeholder="Tujuan" required>
-                        <input type="number" id="jumlahTarget" placeholder="Target" required>
-                        <button type="submit" class="btn-icon">+</button>
-                    </form>
-                    <ul id="listNabung" class="list-simple"></ul>
+                    <ul id="listTransaksi" class="custom-list">
+                        </ul>
                 </div>
             </div>
         </div>
-    </section>
+    </main>
+
+    <main id="page-budget" class="page-section">
+        <div class="container">
+            <div class="header-section">
+                <h2>Atur Budget Bulanan</h2>
+                <p>Jaga pengeluaranmu agar tidak boncos.</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="card form-card">
+                    <h3>Tambah Pos Budget</h3>
+                    <form id="budgetForm" class="modern-form">
+                        <input type="text" id="namaBudget" placeholder="Nama Pos (mis: Jajan)" required>
+                        <input type="number" id="jumlahBudget" placeholder="Batas Maksimal (Rp)" required>
+                        <button type="submit" class="btn-primary">Buat Budget</button>
+                    </form>
+                </div>
+
+                <div class="card list-card">
+                    <h3>Daftar Budget</h3>
+                    <ul id="listBudget" class="custom-list"></ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <main id="page-nabung" class="page-section">
+        <div class="container">
+            <div class="header-section">
+                <h2>Target Impian</h2>
+                <p>Pantau progress tabunganmu di sini.</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="card form-card">
+                    <h3>Target Baru</h3>
+                    <form id="nabungForm" class="modern-form">
+                        <input type="text" id="namaTabungan" placeholder="Tujuan (mis: Beli HP)" required>
+                        <input type="number" id="jumlahTarget" placeholder="Target Nominal (Rp)" required>
+                        <button type="submit" class="btn-primary">Mulai Nabung</button>
+                    </form>
+                </div>
+
+                <div class="card list-card">
+                    <h3>List Keinginan</h3>
+                    <ul id="listNabung" class="custom-list"></ul>
+                </div>
+            </div>
+        </div>
+    </main>
 
     <div id="saldoModal" class="modal">
         <div class="modal-content">
@@ -123,16 +152,10 @@
             <form id="saldoForm" class="modern-form">
                 <input type="text" id="namaSaldo" placeholder="Sumber Dana" required>
                 <input type="number" id="jumlahSaldo" placeholder="Nominal (Rp)" required>
-                <button type="submit" class="btn-block">Tambah Saldo</button>
+                <button type="submit" class="btn-primary">Update Saldo</button>
             </form>
         </div>
     </div>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 FulusQ. Simpel & Efektif.</p>
-        </div>
-    </footer>
 
     <script src="script.js"></script>
 </body>
