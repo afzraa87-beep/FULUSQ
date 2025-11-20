@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 
@@ -20,7 +21,7 @@
                     <span class="icon">🏠</span> Dashboard
                 </button>
                 <button class="nav-link" onclick="showPage('budget')">
-                    <span class="icon">📊</span> Budgeting
+                    <span class="icon">📊</span> Budget
                 </button>
                 <button class="nav-link" onclick="showPage('nabung')">
                     <span class="icon">🎯</span> Nabung
@@ -35,10 +36,10 @@
         <div class="container">
             <div class="balance-card-wrapper">
                 <div class="balance-card">
-                    <p class="label">Total Saldo Saat Ini</p>
+                    <p class="label">Total Saldo Dompet</p>
                     <h2 id="totalSaldo">Rp 0</h2>
                     <div class="balance-actions">
-                        <button id="btnInputSaldo" class="btn-white-outline">Set Saldo Awal</button>
+                        <button id="btnInputSaldo" class="btn-white-outline">Update Saldo</button>
                     </div>
                 </div>
                 <div class="stats-grid">
@@ -66,7 +67,7 @@
                     </div>
                     <form id="transaksiForm" class="modern-form">
                         <div class="input-group">
-                            <input type="text" id="namaTransaksi" placeholder="Keperluan (mis: Nasi Padang)" required>
+                            <input type="text" id="namaTransaksi" placeholder="Keperluan" required>
                         </div>
                         <div class="form-row">
                             <div class="input-group">
@@ -88,8 +89,7 @@
                         <h3>Riwayat Terakhir</h3>
                         <button class="btn-text-danger" onclick="hapusSemua('transaksi')">Reset</button>
                     </div>
-                    <ul id="listTransaksi" class="custom-list">
-                        </ul>
+                    <ul id="listTransaksi" class="custom-list"></ul>
                 </div>
             </div>
         </div>
@@ -98,22 +98,19 @@
     <main id="page-budget" class="page-section">
         <div class="container">
             <div class="header-section">
-                <h2>Atur Budget Bulanan</h2>
-                <p>Jaga pengeluaranmu agar tidak boncos.</p>
+                <h2>Atur Budget</h2>
+                <p>Kelola batas pengeluaran bulananmu.</p>
             </div>
-
             <div class="content-grid">
                 <div class="card form-card">
-                    <h3>Tambah Pos Budget</h3>
+                    <h3>Tambah Budget</h3>
                     <form id="budgetForm" class="modern-form">
-                        <input type="text" id="namaBudget" placeholder="Nama Pos (mis: Jajan)" required>
-                        <input type="number" id="jumlahBudget" placeholder="Batas Maksimal (Rp)" required>
-                        <button type="submit" class="btn-primary">Buat Budget</button>
+                        <input type="text" id="namaBudget" placeholder="Nama Pos (mis: Makan)" required>
+                        <input type="number" id="jumlahBudget" placeholder="Limit (Rp)" required>
+                        <button type="submit" class="btn-primary">Simpan</button>
                     </form>
                 </div>
-
                 <div class="card list-card">
-                    <h3>Daftar Budget</h3>
                     <ul id="listBudget" class="custom-list"></ul>
                 </div>
             </div>
@@ -123,8 +120,8 @@
     <main id="page-nabung" class="page-section">
         <div class="container">
             <div class="header-section">
-                <h2>Target Impian</h2>
-                <p>Pantau progress tabunganmu di sini.</p>
+                <h2>Target Impian 🏆</h2>
+                <p>Tabung sedikit demi sedikit, lama-lama menjadi bukit.</p>
             </div>
 
             <div class="content-grid">
@@ -133,7 +130,7 @@
                     <form id="nabungForm" class="modern-form">
                         <input type="text" id="namaTabungan" placeholder="Tujuan (mis: Beli HP)" required>
                         <input type="number" id="jumlahTarget" placeholder="Target Nominal (Rp)" required>
-                        <button type="submit" class="btn-primary">Mulai Nabung</button>
+                        <button type="submit" class="btn-primary">Buat Target</button>
                     </form>
                 </div>
 
@@ -147,12 +144,25 @@
 
     <div id="saldoModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h3>Input Saldo Tambahan</h3>
+            <span class="close-modal" onclick="closeModal('saldoModal')">&times;</span>
+            <h3>Update Saldo Dompet</h3>
             <form id="saldoForm" class="modern-form">
                 <input type="text" id="namaSaldo" placeholder="Sumber Dana" required>
                 <input type="number" id="jumlahSaldo" placeholder="Nominal (Rp)" required>
-                <button type="submit" class="btn-primary">Update Saldo</button>
+                <button type="submit" class="btn-primary">Simpan</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="topupModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('topupModal')">&times;</span>
+            <h3>Isi Tabungan 💰</h3>
+            <p id="topupTitle" style="margin-bottom:15px; color:#666;">Untuk target: ...</p>
+            <form id="topupForm" class="modern-form">
+                <input type="hidden" id="topupIndex">
+                <input type="number" id="jumlahTopup" placeholder="Masukkan Jumlah (Rp)" required>
+                <button type="submit" class="btn-primary">Masukkan ke Celengan</button>
             </form>
         </div>
     </div>
