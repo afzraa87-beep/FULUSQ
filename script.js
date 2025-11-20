@@ -1,4 +1,19 @@
 /* ============================
+   MODE SIANG / MALAM
+============================ */
+const modeToggle = document.getElementById("modeToggle");
+
+modeToggle.addEventListener("click", function() {
+    document.body.classList.toggle("dark");
+
+    // ganti ikon
+    if(document.body.classList.contains("dark")) {
+        modeToggle.textContent = "☀️"; // ikon siang
+    } else {
+        modeToggle.textContent = "🌙"; // ikon malam
+    }
+});
+/* ============================
    ELEMENT SELECTORS
 ============================ */
 const transaksiForm = document.getElementById("transaksiForm");
