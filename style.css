@@ -270,4 +270,18 @@ body.dark .delete-btn {
 .mode-toggle:hover {
     transform: scale(1.2);
 }
+#chartSection {
+    padding: 50px 40px;
+    background-color: #F8FAFB;
+    margin-top: 40px;
+}
 
+body.dark #chartSection {
+    background-color: #2a3e5c;
+}
+
+#keuanganChart {
+    max-width: 700px;
+    margin: auto;
+    display: block;
+}
