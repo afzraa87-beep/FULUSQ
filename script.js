@@ -54,6 +54,58 @@ function updateDashboard() {
     pengeluaranDisplay.textContent = "Rp " + totalPengeluaran.toLocaleString();
     totalSaldoDisplay.textContent = "Rp " + totalSaldo.toLocaleString();
 }
+/* ============================
+   CHART KEUANGAN REAL-TIME
+============================ */
+const ctx = document.getElementById("keuanganChart").getContext("2d");
+
+let keuanganChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+        labels: ["Pemasukan", "Pengeluaran", "Saldo"],
+        datasets: [{
+            label: "Jumlah (Rp)",
+            data: [0, 0, 0],
+            backgroundColor: [
+                "#FF8C42", // Pemasukan - oranye
+                "#A8DADC", // Pengeluaran - biru muda
+                "#1D3557"  // Saldo - biru tua
+            ]
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+/* ============================
+   UPDATE CHART
+============================ */
+function updateChart() {
+    const totalPemasukan = transaksi
+        .filter(t => t.jenis === "pemasukan")
+        .reduce((a, b) => a + b.jumlah, 0);
+
+    const totalPengeluaran = transaksi
+        .filter(t => t.jenis === "pengeluaran")
+        .reduce((a, b) => a + b.jumlah, 0);
+
+    const saldo = totalPemasukan - totalPengeluaran;
+
+    keuanganChart.data.datasets[0].data = [totalPemasukan, totalPengeluaran, saldo];
+    keuanganChart.update();
+}
+
 
 /* ============================
    RENDER LIST TRANSAKSI
@@ -176,3 +228,35 @@ renderTransaksi();
 renderBudget();
 renderNabung();
 updateDashboard();
+function updateLineChart() {
+    // kumpulkan data per hari (misal hanya tanggal transaksi)
+    const dates = [...new Set(transaksi.map(t => t.tanggal))].sort();
+    const pemasukanData = [];
+    const pengeluaranData = [];
+
+    dates.forEach(d => {
+        const totalPemasukan = transaksi
+            .filter(t => t.jenis === "pemasukan" && t.tanggal === d)
+            .reduce((a,b) => a+b.jumlah, 0);
+        const totalPengeluaran = transaksi
+            .filter(t => t.jenis === "pengeluaran" && t.tanggal === d)
+            .reduce((a,b) => a+b.jumlah, 0);
+        pemasukanData.push(totalPemasukan);
+        pengeluaranData.push(totalPengeluaran);
+    });
+
+    if(window.lineChart) window.lineChart.destroy();
+
+    const ctxLine = document.getElementById("lineChart").getContext("2d");
+    window.lineChart = new Chart(ctxLine, {
+        type: 'line',
+        data: {
+            labels: dates,
+            datasets: [
+                { label: 'Pemasukan', data: pemasukanData, borderColor: '#FF8C42', fill: false },
+                { label: 'Pengeluaran', data: pengeluaranData, borderColor: '#A8DADC', fill: false }
+            ]
+        },
+        options: { responsive: true }
+    });
+}
